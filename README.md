@@ -1,6 +1,6 @@
 # codotype-hackathon-starter
 
-Codotype generator for React, React Router, & Bootstrap 4
+A Codotype generator build around Sahat's Hackathon Starter
 
 ## Development Instructions
 
