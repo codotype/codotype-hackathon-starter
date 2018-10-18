@@ -1,0 +1,84 @@
+{
+  "id": "codotype-hackathon-starter",
+  "label": "Hackathon Starter",
+  "icon": "devicon-express-plain",
+  "description": "Codotype generator with Sahat's Hackathon Starter",
+  "tech_tags": ["Node.js", "Express", "MongoDB", "Bootstrap"],
+  "type_tags": ["Fullstack"],
+  "self_configuring": false,
+  "project_path": "hackathon_starter",
+  "addons": [],
+  "global_options": [],
+  "model_options": [],
+  "github_url": "codotype/codotype-react-generator",
+  "version": "0.1.0",
+  "official": true,
+  "global_options": [
+    {
+      "label": "Generate APIDoc Documentation Headers",
+      "identifier": "generate_api_doc",
+      "type": "BOOLEAN",
+      "help": "Whether or not generate APIDoc-compatible comment headers in the API controllers",
+      "default_value": true,
+      "more_info_url": "http://apidocjs.com"
+    },
+    {
+      "label": "Enable Facebook Authorization",
+      "identifier": "enable_facebook_auth",
+      "type": "BOOLEAN",
+      "help": "Whether or not your app will have built-in support for Facebook authorization",
+      "default_value": false,
+      "more_info_url": "https://facebook.com"
+    },
+    {
+      "label": "Enable Twitter Authorization",
+      "identifier": "enable_twitter_auth",
+      "type": "BOOLEAN",
+      "help": "Whether or not your app will have built-in support for Twitter authorization",
+      "default_value": false,
+      "more_info_url": "https://facebook.com"
+    },
+    {
+      "label": "Enable Google Authorization",
+      "identifier": "enable_google_auth",
+      "type": "BOOLEAN",
+      "help": "Whether or not your app will have built-in support for Google authorization",
+      "default_value": false,
+      "more_info_url": "https://facebook.com"
+    },
+    {
+      "label": "Enable GitHub Authorization",
+      "identifier": "enable_github_auth",
+      "type": "BOOLEAN",
+      "help": "Whether or not your app will have built-in support for GitHub authorization",
+      "default_value": true,
+      "more_info_url": "https://facebook.com"
+    },
+    {
+      "label": "Enable LinkedIn Authorization",
+      "identifier": "enable_linkedin_auth",
+      "type": "BOOLEAN",
+      "help": "Whether or not your app will have built-in support for LinkedIn authorization",
+      "default_value": true,
+      "more_info_url": "https://facebook.com"
+    },
+    {
+      "label": "Enable Instagram Authorization",
+      "identifier": "enable_instagram_auth",
+      "type": "BOOLEAN",
+      "help": "Whether or not your app will have built-in support for Instagram authorization",
+      "default_value": true,
+      "more_info_url": "https://facebook.com"
+    }
+  ],
+  "model_options": [
+    {
+      "label": "FontAwesome Icon",
+      "identifier": "fontawesome_icon",
+      "type": "TEXT",
+      "help": "Specify a FontAwesome icon to be used in the UI for this model.",
+      "default_value": "fa-checkbox",
+      "more_info_url": "https://fontawesome.com"
+    }
+  ]
+}
