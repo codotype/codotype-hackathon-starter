@@ -1,10 +1,5 @@
-const Generator = require('@codotype/generator')
-
-module.exports = class ReactJsAppCore extends Generator {
+module.exports = {
   async write({ blueprint }) {
-    await this.copyTemplate(
-      this.templatePath('app.js'),
-      this.destinationPath('src/app.js')
-    )
+    await this.renderComponent({ src: 'app.js', dest: 'src/app.js' })
   }
 }
