@@ -1,18 +1,45 @@
 const { promisify } = require('util');
 const request = require('request');
+<%_ if (configuration.options.enable_web_scraping_api) { _%>
 const cheerio = require('cheerio');
+<%_ } _%>
+<%_ if (configuration.options.enable_facebook_api) { _%>
 const graph = require('fbgraph');
+<%_ } _%>
+<%_ if (configuration.options.enable_last_fm_api) { _%>
 const { LastFmNode } = require('lastfm');
+<%_ } _%>
+<%_ if (configuration.options.enable_tumblr_api) { _%>
 const tumblr = require('tumblr.js');
+<%_ } _%>
+<%_ if (configuration.options.enable_github_api) { _%>
 const GitHub = require('@octokit/rest');
+<%_ } _%>
+<%_ if (configuration.options.enable_twitter_api) { _%>
 const Twit = require('twit');
+<%_ } _%>
+<%_ if (configuration.options.enable_stripe_api) { _%>
 const stripe = require('stripe')(process.env.STRIPE_SKEY);
+<%_ } _%>
+<%_ if (configuration.options.enable_twilio_api) { _%>
 const twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
+<%_ } _%>
+<%_ if (configuration.options.enable_linkedin_api) { _%>
 const Linkedin = require('node-linkedin')(process.env.LINKEDIN_ID, process.env.LINKEDIN_SECRET, process.env.LINKEDIN_CALLBACK_URL);
+<%_ } _%>
+<%_ if (configuration.options.enable_clockwork_sms_api) { _%>
 const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
+<%_ } _%>
+<%_ if (configuration.options.enable_paypal_api) { _%>
 const paypal = require('paypal-rest-sdk');
+<%_ } _%>
+<%_ if (configuration.options.enable_lob_api) { _%>
 const lob = require('lob')(process.env.LOB_KEY);
+<%_ } _%>
+<%_ if (configuration.options.enable_instagram_api) { _%>
 const ig = require('instagram-node').instagram();
+<%_ } _%>
+<%_ if (configuration.options.enable_foursquare_api) { _%>
 const { Venues, Users } = require('node-foursquare')({
   secrets: {
     clientId: process.env.FOURSQUARE_ID,
@@ -24,6 +51,7 @@ const { Venues, Users } = require('node-foursquare')({
     version: 20140806,
   }
 });
+<%_ } _%>
 
 /**
  * GET /api
@@ -34,6 +62,7 @@ exports.getApi = (req, res) => {
     title: 'API Examples'
   });
 };
+<%_ if (configuration.options.enable_foursquare_api) { _%>
 
 /**
  * GET /api/foursquare
@@ -58,6 +87,8 @@ exports.getFoursquare = async (req, res, next) => {
     return next(err);
   }
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_tumblr_api) { _%>
 
 /**
  * GET /api/tumblr
@@ -80,6 +111,8 @@ exports.getTumblr = (req, res, next) => {
     });
   });
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_facebook_api) { _%>
 
 /**
  * GET /api/facebook
@@ -96,6 +129,8 @@ exports.getFacebook = (req, res, next) => {
     });
   });
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_web_scraping_api) { _%>
 
 /**
  * GET /api/scraping
@@ -115,6 +150,8 @@ exports.getScraping = (req, res, next) => {
     });
   });
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_github_api) { _%>
 
 /**
  * GET /api/github
@@ -132,6 +169,8 @@ exports.getGithub = async (req, res, next) => {
     next(error);
   }
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_aviary_api) { _%>
 
 /**
  * GET /api/aviary
@@ -142,6 +181,8 @@ exports.getAviary = (req, res) => {
     title: 'Aviary API'
   });
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_new_york_times_api) { _%>
 
 /**
  * GET /api/nyt
@@ -164,6 +205,8 @@ exports.getNewYorkTimes = (req, res, next) => {
     });
   });
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_last_fm_api) { _%>
 
 /**
  * GET /api/lastfm
@@ -247,6 +290,8 @@ exports.getLastfm = async (req, res, next) => {
     }
   }
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_twitter_api) { _%>
 
 /**
  * GET /api/twitter
@@ -302,6 +347,8 @@ exports.postTwitter = (req, res, next) => {
     res.redirect('/api/twitter');
   });
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_steam_api) { _%>
 
 /**
  * GET /api/steam
@@ -365,6 +412,8 @@ exports.getSteam = async (req, res, next) => {
     next(err);
   }
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_stripe_api) { _%>
 
 /**
  * GET /api/stripe
@@ -397,6 +446,8 @@ exports.postStripe = (req, res) => {
     res.redirect('/api/stripe');
   });
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_twilio_api) { _%>
 
 /**
  * GET /api/twilio
@@ -433,6 +484,8 @@ exports.postTwilio = (req, res, next) => {
     res.redirect('/api/twilio');
   }).catch(next);
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_clockwork_sms_api) { _%>
 
 /**
  * GET /api/clockwork
@@ -460,6 +513,8 @@ exports.postClockwork = (req, res, next) => {
     res.redirect('/api/clockwork');
   });
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_linkedin_api) { _%>
 
 /**
  * GET /api/linkedin
@@ -476,6 +531,8 @@ exports.getLinkedin = (req, res, next) => {
     });
   });
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_instagram_api) { _%>
 
 /**
  * GET /api/instagram
@@ -502,6 +559,8 @@ exports.getInstagram = async (req, res, next) => {
     next(error);
   }
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_paypal_api) { _%>
 
 /**
  * GET /api/paypal
@@ -572,6 +631,8 @@ exports.getPayPalCancel = (req, res) => {
     canceled: true
   });
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_lob_api) { _%>
 
 /**
  * GET /api/lob
@@ -586,6 +647,7 @@ exports.getLob = (req, res, next) => {
     });
   });
 };
+<%_ } _%>
 
 /**
  * GET /api/upload
@@ -602,6 +664,7 @@ exports.postFileUpload = (req, res) => {
   req.flash('success', { msg: 'File was uploaded successfully.' });
   res.redirect('/api/upload');
 };
+<%_ if (configuration.options.enable_pinterest_api) { _%>
 
 /**
  * GET /api/pinterest
@@ -652,6 +715,8 @@ exports.postPinterest = (req, res, next) => {
     res.redirect('/api/pinterest');
   });
 };
+<%_ } _%>
+<%_ if (configuration.options.enable_google_maps_api) { _%>
 
 exports.getGoogleMaps = (req, res) => {
   res.render('api/google-maps', {
@@ -659,3 +724,4 @@ exports.getGoogleMaps = (req, res) => {
     google_map_api_key: process.env.GOOGLE_MAP_API_KEY
   });
 };
+<%_ } _%>

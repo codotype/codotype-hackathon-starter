@@ -8,6 +8,7 @@ module.exports = {
     'views/api/index.pug',
     'views/partials/header.pug',
     'views/account/login.pug',
+    'controllers/api.js',
     'app.js'
   ],
   async write () {
