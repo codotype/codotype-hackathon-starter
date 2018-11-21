@@ -5,123 +5,198 @@ block content
     h3 API Examples
 
   .row
+
+    <%_ if (configuration.options.enable_github_api) { _%>
     .col-md-4
       a(href='/api/github', style='color: #fff')
         .card(style='background-color: #000').mb-3
           .card-body
             img(src='https://i.imgur.com/2AaBlpf.png', height=40)
             |  GitHub
+    <%_ } _%>
+
+    <%_ if (configuration.options.enable_twitter_api) { _%>
     .col-md-4
       a(href='/api/twitter', style='color: #fff')
         .card(style='background-color: #00abf0').mb-3
           .card-body
             img(src='https://i.imgur.com/EYA2FO1.png', height=40)
             |  Twitter
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_facebook_api) { _%>
     .col-md-4
       a(href='/api/facebook', style='color: #fff')
         .card(style='background-color: #3b5998').mb-3
           .card-body
             img(src='https://i.imgur.com/jiztYCH.png', height=40)
             |  Facebook
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_foursquare_api) { _%>
     .col-md-4
       a(href='/api/foursquare', style='color: #fff')
         .card(style='background-color: #1cafec').mb-3
           .card-body
             img(src='https://i.imgur.com/PixH9li.png', height=40)
             |  Foursquare
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_instagram_api) { _%>
     .col-md-4
       a(href='/api/instagram', style='color: #fff')
         .card(style='background-color: #947563').mb-3
           .card-body
             img(src='https://i.imgur.com/aRc6LUJ.png', height=40)
             |  Instagram
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_last_fm_api) { _%>
     .col-md-4
       a(href='/api/lastfm', style='color: #fff')
         .card(style='background-color: #d21309').mb-3
           .card-body
             img(src='https://i.imgur.com/KfZY876.png', height=40)
             |  Last.fm
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_linkedin_api) { _%>
     .col-md-4
       a(href='/api/linkedin', style='color: #fff')
         .card(style='background-color: #007bb6').mb-3
           .card-body
             img(src='https://i.imgur.com/sYmVWAw.png', height=40)
             |  LinkedIn
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_new_york_times_api) { _%>
     .col-md-4
       a(href='/api/nyt', style='color: #fff')
         .card(style='background-color: #454442').mb-3
           .card-body
             img(src='https://i.imgur.com/e3sjmYj.png', height=40)
             |  New York Times
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_steam_api) { _%>
     .col-md-4
       a(href='/api/steam', style='color: #fff')
         .card(style='background-color: #000').mb-3
           .card-body
             img(src='https://i.imgur.com/1xGmKBX.jpg', height=40)
             |  Steam
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_stripe_api) { _%>
     .col-md-4
       a(href='/api/stripe', style='color: #fff')
         .card(style='background-color: #3da8e5').mb-3
           .card-body
             img(src='https://i.imgur.com/w3s2RvW.png', height=40)
             |  Stripe
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_paypal_api) { _%>
     .col-md-4
       a(href='/api/paypal', style='color: #000')
         .card(style='background-color: #f5f5f5').mb-3
           .card-body
             img(src='https://i.imgur.com/JNc0iaX.png', height=40)
             |  PayPal
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_twilio_api) { _%>
     .col-md-4
       a(href='/api/twilio', style='color: #fff')
         .card(style='background-color: #fd0404').mb-3
           .card-body
             img(src='https://i.imgur.com/mEUd6zM.png', height=40)
             |  Twilio
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_tumblr_api) { _%>
     .col-md-4
       a(href='/api/tumblr', style='color: #fff')
         .card(style='background-color: #304e6c').mb-3
           .card-body
             img(src='https://i.imgur.com/rZGQShS.png', height=40)
             |  Tumblr
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_web_scraping_api) { _%>
     .col-md-4
       a(href='/api/scraping', style='color: #fff')
         .card(style='background-color: #ff6500').mb-3
           .card-body
             img(src='https://i.imgur.com/RGCVvyR.png', height=40)
             |  Web Scraping
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_clockwork_sms_api) { _%>
     .col-md-4
       a(href='/api/clockwork', style='color: #fff')
         .card(style='background-color: #000').mb-3
           .card-body
             img(src='https://i.imgur.com/YcdxZ5F.png', height=40)
             |  Clockwork SMS
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_aviary_api) { _%>
     .col-md-4
       a(href='/api/aviary', style='color: #fff')
         .card(style='background: linear-gradient(to bottom, #1f3d95 0%,#04aade 100%)').mb-3
           .card-body
             img(src='https://i.imgur.com/npBRwMI.png', height=40)
             |  Aviary
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_lob_api) { _%>
     .col-md-4
       a(href='/api/lob', style='color: #fff')
         .card(style='background-color: #176992').mb-3
           .card-body
             img(src='https://i.imgur.com/bmgfsSg.png', height=40)
             |  Lob
-    .col-md-4
-      a(href='/api/upload', style='color: #1565c0')
-        .card(style='background-color: #fff').mb-3
-          .card-body
-            img(src='https://i.imgur.com/UPTzIdC.png', height=40)
-            |  File Upload
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_pinterest_api) { _%>
     .col-md-4
       a(href='/api/pinterest', style='color: #fff')
         .card(style='background-color: #bd081c').mb-3
           .card-body
             img(src='https://i.imgur.com/JNNRQSm.png', height=40)
             |  Pinterest
+    <%_ } _%>
+
+
+    <%_ if (configuration.options.enable_google_maps_api) { _%>
     .col-md-4
       a(href='/api/google-maps', style='color: #fff')
         .card(style='background-color: #20a360').mb-3
           .card-body
             img(src='https://i.imgur.com/Er2ZqgZ.png', height=40)
             |  Google Maps
+    <%_ } _%>
+
+    .col-md-4
+      a(href='/api/upload', style='color: #1565c0')
+        .card(style='background-color: #fff').mb-3
+          .card-body
+            img(src='https://i.imgur.com/UPTzIdC.png', height=40)
+            |  File Upload

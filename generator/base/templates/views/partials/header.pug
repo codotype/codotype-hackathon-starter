@@ -13,7 +13,7 @@
           a.nav-link(href='/') Home
         <%_ blueprint.schemas.forEach((schema) => { _%>
         li.nav-item(class=(title === 'schema.label_plural') ? 'active' : undefined)
-          a.nav-link(href='<%= schema.identifier_plural %>') <%= schema.label_plural %>
+          a.nav-link(href='/<%= schema.identifier_plural %>') <%= schema.label_plural %>
         <%_ }) _%>
         li.nav-item(class=(title === 'API Examples') ? 'active' : undefined)
           a.nav-link(href='/api') API Examples
