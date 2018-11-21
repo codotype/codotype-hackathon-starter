@@ -2,3 +2,10 @@ extends ../layout
 
 block content
   h2 <%= schema.label_plural %>
+  a(href="/<%= schema.identifier_plural %>/new") New
+
+  ul.list-group
+    for <%= schema.identifier %> in collection
+      li.list-group-item= <%= schema.identifier %>.<%= "_id" %>
+
+  pre= collection

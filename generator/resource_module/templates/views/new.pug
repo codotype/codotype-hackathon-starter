@@ -2,3 +2,28 @@ extends ../layout
 
 block content
   h2 New <%= schema.label %>
+
+  form(method='POST' action="/<%= schema.identifier_plural %>")
+    input(type='hidden', name='_csrf', value=_csrf)
+
+    <%_ schema.attributes.forEach((attr) => { _%>
+
+    <%_ if (attr.datatype === 'TEXT') { _%>
+    .form-group
+      label(class='col-md-2 col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+      input.form-control(type="text" name='<%= attr.identifier %>', id='<%= attr.identifier %>')
+    <%_ } else if (attr.datatype === 'NUMBER') { _%>
+    .form-group
+      label(class='col-md-2 col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+      input.form-control(type="number" name='<%= attr.identifier %>', id='<%= attr.identifier %>')
+    <%_ } _%>
+
+
+    <%_ }) _%>
+
+    .form-group
+      .offset-md-2.col-md-8.p-1
+
+        button.btn.btn-primary(type='submit')
+          i.far.fa-check.fa-sm
+          | Send

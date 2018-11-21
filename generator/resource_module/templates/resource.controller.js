@@ -29,7 +29,8 @@ module.exports.list = (req, res, next) => {
     <%_ }) _%>
     .then((response) => {
         res.render('<%= schema.identifier %>/list', {
-          title: '<%= schema.label_plural %>'
+          title: '<%= schema.label_plural %>',
+          collection: response
         });
     })
     .catch( err => next(boom.badImplementation(err)) );
@@ -50,10 +51,7 @@ module.exports.create = (req, res, next) => {
     return new <%= schema.class_name %>(req.body).save()
     <%_ } _%>
     .then((response) => {
-        return res
-        .status(200)
-        .send(response)
-        .end();
+        res.redirect('/<%= schema.identifier_plural %>');
     })
     .catch( err => next(boom.badImplementation(err)) );
 };
