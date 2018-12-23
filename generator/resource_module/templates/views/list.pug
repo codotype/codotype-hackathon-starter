@@ -6,6 +6,11 @@ block content
 
   ul.list-group
     for <%= schema.identifier %> in collection
-      li.list-group-item= <%= schema.identifier %>.<%= "_id" %>
+      a.list-group-item(href="/<%= schema.identifier_plural %>/" + <%= schema.identifier %>.<%= "_id" %>)
+        =<%= schema.identifier %>.<%= "_id" %>
+        <%_ schema.attributes.forEach((a) => {_%>
+        br
+        =<%= schema.identifier %>.<%= a.identifier %>
+        <%_ }) _%>
 
   pre= collection
