@@ -26,22 +26,36 @@ block content
           th <%= r.alias.label %>
           <%_ } _%>
           <%_ }) _%>
+          th
 
         tbody
-          tr
-          for <%= schema.identifier %> in collection
-            tr
-              td
-                a(href="/<%= schema.identifier_plural %>/" + <%= schema.identifier %>.<%= "_id" %>)=<%= schema.identifier %>.<%= "_id" %>
-
+          if (!collection[0])
+            tr.table-warning
+              td No <%= schema.label_plural %> available
               <%_ schema.attributes.forEach((a) => {_%>
-              td= <%= schema.identifier %>.<%= a.identifier %>
+              td
               <%_ }) _%>
-
               <%_ schema.relations.forEach((r) => {_%>
-              <%_ if (r.type === 'HAS_MANY') { _%>
-              td= <%= schema.identifier %>.<%= r.alias.identifier + '_ids' %>.length
-              <%_ } else if (['HAS_ONE', 'BELONGS_TO'].includes(r.type)) { _%>
-              td= <%= schema.identifier %>.<%= r.alias.identifier + '_id' %>
-              <%_ } _%>
+              td
               <%_ }) _%>
+              td
+          else
+            for <%= schema.identifier %> in collection
+              tr
+                td
+                  a(href="/<%= schema.identifier_plural %>/" + <%= schema.identifier %>.<%= "_id" %>)=<%= schema.identifier %>.<%= "_id" %>
+
+                <%_ schema.attributes.forEach((a) => {_%>
+                td= <%= schema.identifier %>.<%= a.identifier %>
+                <%_ }) _%>
+
+                <%_ schema.relations.forEach((r) => {_%>
+                <%_ if (r.type === 'HAS_MANY') { _%>
+                td= <%= schema.identifier %>.<%= r.alias.identifier + '_ids' %>.length
+                <%_ } else if (['HAS_ONE', 'BELONGS_TO'].includes(r.type)) { _%>
+                td= <%= schema.identifier %>.<%= r.alias.identifier + '_id' %>
+                <%_ } _%>
+                <%_ }) _%>
+                td.text-right
+                  button.btn-sm.btn-outline-dark
+                    i.fa.fa-caret-down.fa-sm
