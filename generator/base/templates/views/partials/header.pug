@@ -3,28 +3,45 @@
     a.navbar-brand(href='/')
       i.fas.fa-cube
       | <%= blueprint.label %>
+
     button.navbar-toggler(type='button', data-toggle='collapse', data-target='.navbar-collapse')
       span.sr-only Toggle navigation
       span.navbar-toggler-icon
+
     .collapse.navbar-collapse
       ul.nav.navbar-nav
 
         li.nav-item(class=(title === 'Home') ? 'active' : undefined)
           a.nav-link(href='/') Home
+
+        <%_ if (blueprint.schemas.length > 5) { _%>
+        li.nav-item.dropdown
+          a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+            | Schemas
+          .dropdown-menu(aria-labelledby='navbarDropdown')
+            <%_ blueprint.schemas.forEach((schema) => { _%>
+            a.dropdown-item(href='/<%= schema.identifier_plural %>') <%= schema.label_plural %>
+            <%_ }) _%>
+        <%_ } else { _%>
         <%_ blueprint.schemas.forEach((schema) => { _%>
         li.nav-item(class=(title === 'schema.label_plural') ? 'active' : undefined)
           a.nav-link(href='/<%= schema.identifier_plural %>') <%= schema.label_plural %>
         <%_ }) _%>
+        <%_ } _%>
+
         li.nav-item(class=(title === 'API Examples') ? 'active' : undefined)
           a.nav-link(href='/api') API Examples
         <%_ if (configuration.features.contact_form) { _%>
+
         li.nav-item(class=(title === 'Contact') ? 'active' : undefined)
           a.nav-link(href='/contact') Contact
         <%_ } _%>
         <%_ if (configuration.features.status_page) { _%>
+
         li.nav-item(class=(title === 'Status') ? 'active' : undefined)
           a.nav-link(href='/status') Status
         <%_ } _%>
+
       ul.nav.navbar-nav.ml-auto
         if !user
           li.nav-item(class=(title === 'Login') ? 'active' : undefined)

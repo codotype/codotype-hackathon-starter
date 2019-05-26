@@ -60,7 +60,7 @@ block content
 
         <%_ } else if (rel.type === RELATION_TYPE_HAS_MANY) { _%>
         .form-group
-          label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_ids') <%= rel.alias.label %>
+          label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_ids') <%= rel.alias.label_plural %>
           select.form-control(type="text" name='<%= rel.alias.identifier %>_ids', id='<%= rel.alias.identifier %>_ids' multiple)
             for <%= rel.alias.camel_case %> in <%= rel.schema.camel_case_plural %>
               option(value=<%= rel.alias.camel_case %>._id)= <%= rel.alias.camel_case %>.<%= rel.related_lead_attribute %>

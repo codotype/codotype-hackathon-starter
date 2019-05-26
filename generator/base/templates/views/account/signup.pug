@@ -5,10 +5,24 @@ block content
     h3 Sign up
   form(id='signup-form', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
+    <%_ userSchema.attributes.forEach((attr, index) => { _%>
     .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='email') Email
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='<%= attr.identifier %>') <%= attr.label %>
       .col-md-7
-        input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, autocomplete='email', required)
+        <%_ if (attr.datatype === DATATYPE_STRING) { _%>
+        input.form-control(type='text', name='<%= attr.identifier %>', id='<%= attr.identifier %>', placeholder='<%= attr.label %>', autocomplete='<%= attr.identifier %>', required=<%= attr.required %>)
+        <%_ } else if (attr.datatype === DATATYPE_TEXT) { _%>
+        textarea.form-control(type='text', name='<%= attr.identifier %>', id='<%= attr.identifier %>', placeholder='<%= attr.label %>', required=<%= attr.required %>)
+        <%_ } else if (attr.datatype === DATATYPE_INTEGER) { _%>
+        input.form-control(type='number', step=1, name='<%= attr.identifier %>', id='<%= attr.identifier %>', placeholder='<%= attr.label %>' required=<%= attr.required %>)
+        <%_ } else if (attr.datatype === DATATYPE_FLOAT) { _%>
+        input.form-control(type='number', name='<%= attr.identifier %>', id='<%= attr.identifier %>', placeholder='<%= attr.label %>', required=<%= attr.required %>)
+        <%_ } else if (attr.datatype === DATATYPE_BOOLEAN) { _%>
+        input.form-control(type='checkbox', name='<%= attr.identifier %>', id='<%= attr.identifier %>', placeholder='<%= attr.label %>', required=<%= attr.required %>, checked=<%= attr.default_value %>)
+        <%_ } else if (attr.datatype === DATATYPE_DATE) { _%>
+        input.form-control(type='date', name='<%= attr.identifier %>', id='<%= attr.identifier %>', placeholder='<%= attr.label %>', required=<%= attr.required %>)
+        <%_ } _%>
+    <%_ }) _%>
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='password') Password
       .col-md-7

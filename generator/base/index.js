@@ -12,7 +12,12 @@ module.exports = {
     'controllers/api.js',
     'app.js'
   ],
-  async write () {
+  async write ({ blueprint }) {
     await this.copyDir({ src: '', dest: '' })
+    await this.renderComponent({
+      src: 'views/account/signup.pug',
+      dest: 'views/account/signup.pug',
+      data: { userSchema: blueprint.schemas.find(s => s.identifier === 'user') }
+    })
   }
 }
