@@ -51,27 +51,20 @@ block content
         <%_ } _%>
         <%_ }) _%>
         <%_ schema.relations.forEach((rel) => { _%>
-        <%_ if (rel.type === RELATION_TYPE_BELONGS_TO) { _%>
+        <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
         .form-group
           label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_id') <%= rel.alias.label %>
-          select.form-control(type="text" name='<%= rel.alias.identifier %>_id', id='<%= rel.alias.identifier %>_id' value='<%= rel.alias.identifier %>_id')
-            option
-            for <%= rel.alias.camel_case %> in <%= rel.alias.camel_case_plural %>
-              option(value=<%= rel.alias.camel_case %>._id)= <%= rel.alias.camel_case %>.<%= rel.related_lead_attribute %>
-
-        <%_ } else if (rel.type === RELATION_TYPE_HAS_ONE) { _%>
-        .form-group
-          label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_id') <%= rel.alias.label %>
-          select.form-control(type="text" name='<%= rel.alias.identifier %>_id', id='<%= rel.alias.identifier %>_id' value='<%= rel.alias.identifier %>_id')
-            for <%= rel.alias.camel_case %> in <%= rel.alias.camel_case_plural %>
-              option(value=<%= rel.alias.camel_case %>._id)= <%= rel.alias.camel_case %>.<%= rel.related_lead_attribute %>
+          select.form-control(type="text" name='<%= rel.alias.identifier %>_id', id='<%= rel.alias.identifier %>_id')
+            option(value="") Select a <%= rel.alias.label_plural %>
+            for <%= rel.alias.camel_case %> in <%= rel.schema.camel_case_plural %>
+              option(value=<%= rel.alias.camel_case %>._id, selected=(model.<%= rel.alias.identifier %>_id.toString() === <%= rel.alias.camel_case %>._id.toString()))= <%= rel.alias.camel_case %>.<%= rel.related_lead_attribute %>
 
         <%_ } else if (rel.type === RELATION_TYPE_HAS_MANY) { _%>
-        //- <%= rel.alias.identifier %>_ids: [],
         .form-group
           label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_ids') <%= rel.alias.label %>
           select.form-control(type="text" name='<%= rel.alias.identifier %>_ids', id='<%= rel.alias.identifier %>_ids' multiple)
-            //- option Test
+            for <%= rel.alias.camel_case %> in <%= rel.schema.camel_case_plural %>
+              option(value=<%= rel.alias.camel_case %>._id, selected=model.<%= rel.alias.identifier %>_ids.includes(<%= rel.alias.camel_case %>._id))= <%= rel.alias.camel_case %>.<%= rel.related_lead_attribute %>
         <%_ } _%>
         <%_ }) _%>
 

@@ -12,9 +12,9 @@ block content
         <%_ schema.attributes.forEach((attr) => { _%>
           tr
             td <%= attr.label %>
-            <%_ if (attr.datatype === 'STRING_ARRAY') { _%>
+            <%_ if (attr.datatype === DATATYPE_STRING_ARRAY) { _%>
             td= model.<%= attr.identifier %>.join(', ')
-            <%_ } else if (attr.datatype === 'BOOLEAN') { _%>
+            <%_ } else if (attr.datatype === DATATYPE_BOOLEAN) { _%>
             td
               span
                 if (model.<%= attr.identifier%>)
@@ -39,6 +39,6 @@ block content
         <%_ } else if ([RELATION_TYPE_HAS_MANY].includes(rel.type)) { _%>
           tr
             td <%= rel.alias.label_plural %>
-            td= model.<%= rel.alias.identifier %>_ids.length + '<%= rel.alias.label_plural %>'
+            td= model.<%= rel.alias.identifier %>_ids.length + ' <%= rel.alias.label_plural %>'
         <%_ } _%>
         <%_ }) _%>

@@ -20,13 +20,21 @@ const <%= relation.schema.class_name %>Model = require('../models/<%= relation.s
 
 // GET /<%= schema.identifier_plural %>/new New
 module.exports.new = async (req, res, next) => {
+    <%_ let queriedSchemasNew = [] _%>
     <%_ schema.relations.forEach((rel) => { _%>
-    const <%= rel.alias.camel_case_plural %> = await <%= rel.schema.class_name %>Model.find({})
+    <%_ if (!queriedSchemasNew.includes(rel.schema.camel_case_plural)) { _%>
+    const <%= rel.schema.camel_case_plural %> = await <%= rel.schema.class_name %>Model.find({})
+    <%_ queriedSchemasNew.push(rel.schema.camel_case_plural) _%>
+    <%_ } _%>
     <%_ }) _%>
 
     res.render('<%= schema.identifier %>/new', {
+      <%_ let returnedSchemasNew = [] _%>
       <%_ schema.relations.forEach((rel) => { _%>
-      <%= rel.alias.camel_case_plural %>: <%= rel.alias.camel_case_plural %>,
+      <%_ if (!returnedSchemasNew.includes(rel.schema.camel_case_plural)) { _%>
+      <%= rel.schema.camel_case_plural %>: <%= rel.schema.camel_case_plural %>,
+      <%_ returnedSchemasNew.push(rel.schema.camel_case_plural) _%>
+      <%_ } _%>
       <%_ }) _%>
       title: 'New <%= schema.label %>',
     });
@@ -68,17 +76,17 @@ module.exports.show = (req, res, next) => {
 module.exports.edit = async (req, res, next) => {
     const model = await <%= schema.class_name %>Model.findById(req.params.id)
 
+    <%_ let queriedSchemas = [] _%>
     <%_ schema.relations.forEach((rel) => { _%>
-    <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
-    const <%= rel.alias.camel_case_plural %> = await <%= rel.schema.class_name %>Model.find({})
+    <%_ if (!queriedSchemas.includes(rel.schema.camel_case_plural)) { _%>
+    const <%= rel.schema.camel_case_plural %> = await <%= rel.schema.class_name %>Model.find({})
+    <%_ queriedSchemas.push(rel.schema.camel_case_plural) _%>
     <%_ } _%>
     <%_ }) _%>
 
     res.render('<%= schema.identifier %>/edit', {
       <%_ schema.relations.forEach((rel) => { _%>
-      <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
-      <%= rel.alias.camel_case_plural %>: <%= rel.alias.camel_case_plural %>,
-      <%_ } _%>
+      <%= rel.schema.camel_case_plural %>: <%= rel.schema.camel_case_plural %>,
       <%_ }) _%>
       model: model,
       title: 'Edit <%= schema.label %>',

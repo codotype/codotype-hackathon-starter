@@ -46,7 +46,6 @@ block content
 
       table.table.table-striped
         thead
-          th ID
           <%_ schema.attributes.forEach((a) => {_%>
           th <%= a.label %>
           <%_ }) _%>
@@ -69,13 +68,9 @@ block content
               <%_ schema.relations.forEach((r) => {_%>
               td
               <%_ }) _%>
-              td
           else
             for <%= schema.identifier %> in collection
               tr
-                td
-                  a(href="/<%= schema.identifier_plural %>/" + <%= schema.identifier %>.<%= "_id" %>)=<%= schema.identifier %>.<%= "_id" %>
-
                 <%_ schema.attributes.forEach((a) => {_%>
                 td= <%= schema.identifier %>.<%= a.identifier %>
                 <%_ }) _%>

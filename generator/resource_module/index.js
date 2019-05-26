@@ -3,9 +3,6 @@ module.exports = {
   name: 'ResourceModules',
   async forEachSchema({ blueprint, schema }) {
 
-    // Ensures the presence of the directory
-    await this.ensureDir('views/' + schema.identifier)
-
     // Model
     await this.renderComponent({
       src: schema.identifier === 'user' ? 'user.resource.model.js' : 'resource.model.js',
@@ -20,9 +17,11 @@ module.exports = {
       data: { schema }
     });
 
-
     // // // //
     // .pug view templates
+
+    // Ensures the presence of the directory
+    await this.ensureDir('views/' + schema.identifier)
 
     // views/resource/list.pug
     await this.renderComponent({
