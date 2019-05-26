@@ -17,7 +17,9 @@ block content
       //- TODO - can this be abstracted a bit?
       #destroyModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='destroyModalLabel', aria-hidden='true')
         .modal-dialog(role='document')
-          form(method='DELETE' action="/<%= schema.identifier_plural %>").modal-content
+          form(method='POST' action="/<%= schema.identifier_plural %>").modal-content
+            input(type='hidden', name='_csrf', value=_csrf)
+            input(type='hidden', value='DELETE', name='_method')
             .modal-header
               h5#destroyModalLabel.modal-title Destroy <%= schema.label %>?
               button.close(type='button', data-dismiss='modal', aria-label='Close')
@@ -36,15 +38,7 @@ block content
           var button = $(event.relatedTarget) // Button that triggered the modal
           var recipient = button.data('id') // Extract info from data-* attributes
           var modal = $(this)
-
-          $.ajax({
-              url: '/<%= schema.identifier_plural %>/' + recipient,
-              type: 'DELETE',
-              success: function(result) {
-                  modal.hide();
-                  window.location = window.location;
-              }
-          });
+          modal.find('form').attr('action', '/<%= schema.identifier_plural %>/' + recipient)
         })
 
       table.table.table-striped
