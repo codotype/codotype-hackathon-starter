@@ -33,7 +33,9 @@ dotenv.config({ path: '.env.example' });
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
+<%_ if (configuration.features.contact_form) { _%>
 const contactController = require('./controllers/contact');
+<%_ } _%>
 <%_ blueprint.schemas.forEach((schema) => { _%>
 <%_ if (schema.identifier === 'user') { return } _%>
 const <%= schema.camel_case %>Controller = require('./controllers/<%= schema.identifier %>')
@@ -140,8 +142,10 @@ app.get('/reset/:token', userController.getReset);
 app.post('/reset/:token', userController.postReset);
 app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
+<%_ if (configuration.features.contact_form) { _%>
 app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
+<%_ } _%>
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
 app.post('/account/profile', passportConfig.isAuthenticated, userController.postUpdateProfile);
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
