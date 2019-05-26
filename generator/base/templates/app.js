@@ -154,9 +154,22 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 
 // // // // //
 // Codotype blueprint routes
+
+// Any requests to the app must pass through this 'use' function
+// used to manipulate POST to support PUT and DELETE requests on CRUD generated with Codotpe
+const methodOverride = require('method-override');
+app.use(methodOverride(function(req, res){
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    var method = req.body._method
+    delete req.body._method
+    return method
+  }
+}))
+
 <%_ blueprint.schemas.forEach((schema) => { _%>
 <%_ if (schema.identifier === 'user') { return } _%>
-
+// <%= schema.label %> Routes + Pages
 app.get('/<%= schema.identifier_plural %>/', <%= schema.camel_case %>Controller.list);
 app.get('/<%= schema.identifier_plural %>/new', <%= schema.camel_case %>Controller.new);
 app.post('/<%= schema.identifier_plural %>/', <%= schema.camel_case %>Controller.create);
