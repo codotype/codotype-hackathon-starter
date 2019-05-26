@@ -76,17 +76,21 @@ module.exports.show = (req, res, next) => {
 module.exports.edit = async (req, res, next) => {
     const model = await <%= schema.class_name %>Model.findById(req.params.id)
 
-    <%_ let queriedSchemas = [] _%>
+    <%_ let queriedSchemasEdit = [] _%>
     <%_ schema.relations.forEach((rel) => { _%>
-    <%_ if (!queriedSchemas.includes(rel.schema.camel_case_plural)) { _%>
+    <%_ if (!queriedSchemasEdit.includes(rel.schema.camel_case_plural)) { _%>
     const <%= rel.schema.camel_case_plural %> = await <%= rel.schema.class_name %>Model.find({})
-    <%_ queriedSchemas.push(rel.schema.camel_case_plural) _%>
+    <%_ queriedSchemasEdit.push(rel.schema.camel_case_plural) _%>
     <%_ } _%>
     <%_ }) _%>
 
     res.render('<%= schema.identifier %>/edit', {
+      <%_ let returnedSchemasEdit = [] _%>
       <%_ schema.relations.forEach((rel) => { _%>
+      <%_ if (!returnedSchemasEdit.includes(rel.schema.camel_case_plural)) { _%>
       <%= rel.schema.camel_case_plural %>: <%= rel.schema.camel_case_plural %>,
+      <%_ returnedSchemasEdit.push(rel.schema.camel_case_plural) _%>
+      <%_ } _%>
       <%_ }) _%>
       model: model,
       title: 'Edit <%= schema.label %>',
