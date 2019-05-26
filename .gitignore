@@ -10,8 +10,7 @@ selenium-debug.log
 *.pyc
 
 # Generated Apps & Zips
-build/**/*
-!build/.gitkeep
+codotype-build
 
 # Editor directories and files
 .idea
