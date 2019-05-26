@@ -1,4 +1,44 @@
 extends ../layout
 
 block content
-  h2 Show <%= schema.label %>
+  .row
+    .col-sm-12
+      h2 Show <%= schema.label %>
+
+  .row
+    .col-sm-12
+      table.table
+        tbody
+        <%_ schema.attributes.forEach((attr) => { _%>
+          tr
+            td <%= attr.label %>
+            <%_ if (attr.datatype === 'STRING_ARRAY') { _%>
+            td= model.<%= attr.identifier %>.join(', ')
+            <%_ } else if (attr.datatype === 'BOOLEAN') { _%>
+            td
+              span
+                if (model.<%= attr.identifier%>)
+                  i.fa.fa-fw.fa-check-square
+                else
+                  i.fa.fa-fw.fa-square-o
+            <%_ } else { _%>
+            td= model.<%= attr.identifier %>
+            <%_ } _%>
+        <%_ }) _%>
+
+        <%_ schema.relations.forEach((rel) => { _%>
+        <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
+          tr
+            td <%= rel.alias.label %>
+            if model.<%= rel.alias.identifier %>_id
+              td
+                a(href="'/<%= rel.schema.identifier_plural %>/' + model.<%= rel.alias.identifier + '_id' %>")= model.<%= rel.alias.identifier %>.<%= rel.related_lead_attribute %>
+              </td>
+            else
+              td N/A
+        <%_ } else if ([RELATION_TYPE_HAS_MANY].includes(rel.type)) { _%>
+          tr
+            td <%= rel.alias.label_plural %>
+            td= model.<%= rel.alias.identifier %>_ids.length + '<%= rel.alias.label_plural %>'
+        <%_ } _%>
+        <%_ }) _%>
