@@ -1,0 +1,425 @@
+{
+  "id": "codotype-hackathon-starter",
+  "label": "Sahat's Hackathon Starter",
+  "icon": "https://jaystack.com/wp-content/uploads/2015/12/nodejs-logo-e1497443346889.png",
+  "description": "Codotype generator with Sahat's Hackathon Starter",
+  "tech_tags": ["Node.js", "Express", "MongoDB", "Bootstrap"],
+  "type_tags": ["Fullstack"],
+  "self_configuring": false,
+  "project_path": "hackathon_starter",
+  "github_url": "codotype/codotype-hackathon-starter-generator",
+  "version": "0.1.0",
+  "experience": "Intermediate",
+  "official": true,
+  "option_groups": [
+    {
+      "label": "Authorization",
+      "identifier": "authorization",
+      "description": "Configure the User Authorization methods for your app",
+      "type": "OPTION_GROUP_TYPE_GLOBAL_OPTION",
+      "help": "Which sign up methods would you like so support?",
+      "more_info_url": "http://apidocjs.com",
+      "attributes": [
+        {
+          "label": "Facebook",
+          "identifier": "facebook",
+          "type": "BOOLEAN",
+          "default_value": true,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-facebook"
+          },
+          "more_info_url": "http://facebook.com"
+        },
+        {
+          "label": "Twitter",
+          "identifier": "twitter",
+          "type": "BOOLEAN",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-twitter"
+          },
+          "more_info_url": "http://twitter.com"
+        },
+        {
+          "label": "Google",
+          "identifier": "google",
+          "type": "BOOLEAN",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-google"
+          },
+          "more_info_url": "http://google.com"
+        },
+        {
+          "label": "GitHub",
+          "identifier": "github",
+          "type": "BOOLEAN",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-github"
+          },
+          "more_info_url": "http://github.com"
+        },
+        {
+          "label": "LinkedIn",
+          "identifier": "linkedin",
+          "type": "BOOLEAN",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-linkedin"
+          },
+          "more_info_url": "http://linkedin.com"
+        },
+        {
+          "label": "Instagram",
+          "identifier": "instagram",
+          "type": "BOOLEAN",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-instagram"
+          },
+          "more_info_url": "http://instagram.com"
+        },
+        {
+          "label": "Snapchat",
+          "identifier": "snapchat",
+          "type": "BOOLEAN",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-snapchat"
+          },
+          "more_info_url": "http://snapchat.com"
+        }
+      ]
+    },
+    {
+      "label": "API Examples",
+      "identifier": "api_examples",
+      "description": "Configure which API examples are included with your app",
+      "help": "Which API Examples would you like included with your boilerplate?",
+      "type": "OPTION_GROUP_TYPE_GLOBAL_OPTION",
+      "more_info_url": "http://apidocjs.com",
+      "attributes": [
+        {
+          "label": "GitHub API",
+          "identifier": "github",
+          "type": "BOOLEAN",
+          "help": "Include dependencies & code to interface with the GitHub API to create and update repositories",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-github"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Twitter API",
+          "identifier": "twitter",
+          "type": "BOOLEAN",
+          "help": "Enable Twitter API?",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-twitter"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Facebook API",
+          "identifier": "facebook",
+          "type": "BOOLEAN",
+          "help": "Enable Facebook API?",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-facebook"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Foursquare API",
+          "identifier": "foursquare",
+          "type": "BOOLEAN",
+          "help": "Enable Foursquare API?",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-foursquare"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Instagram API",
+          "identifier": "instagram",
+          "type": "BOOLEAN",
+          "help": "Enable Instagram API?",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-instagram"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Last.fm API",
+          "identifier": "last_fm",
+          "type": "BOOLEAN",
+          "help": "Enable Last.fm API?",
+          "default_value": true,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-last-fm"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "LinkedIn API",
+          "identifier": "linkedin",
+          "type": "BOOLEAN",
+          "help": "Enable LinkedIn API?",
+          "default_value": true,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-linkedin"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "New York Times API",
+          "identifier": "new_york_times",
+          "type": "BOOLEAN",
+          "help": "Enable New York Times API?",
+          "default_value": true,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fa fa-newspaper"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Steam API",
+          "identifier": "steam",
+          "type": "BOOLEAN",
+          "help": "Enable Steam API?",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-steam"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Stripe API",
+          "identifier": "stripe",
+          "type": "BOOLEAN",
+          "help": "Enable Stripe API?",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-stripe"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "PayPal API",
+          "identifier": "paypal",
+          "type": "BOOLEAN",
+          "help": "Enable PayPal API?",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-paypal"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Twilio API",
+          "identifier": "twilio",
+          "type": "BOOLEAN",
+          "help": "Enable Twilio API?",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-twilio"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Tumblr API",
+          "identifier": "tumblr",
+          "type": "BOOLEAN",
+          "help": "Enable Tumblr API?",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-tumblr"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Web Scraping API",
+          "identifier": "web_scraping",
+          "type": "BOOLEAN",
+          "help": "Enable Web Scraping API?",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "Web fab fa-scraping"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Clockwork SMS API",
+          "identifier": "clockwork_sms",
+          "type": "BOOLEAN",
+          "help": "Enable Clockwork SMS API?",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "Clockwork fab fa-sms"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Aviary API",
+          "identifier": "aviary",
+          "type": "BOOLEAN",
+          "help": "Enable Aviary API?",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-aviary"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Lob API",
+          "identifier": "lob",
+          "type": "BOOLEAN",
+          "help": "Enable Lob API?",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-lob"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Pinterest API",
+          "identifier": "pinterest",
+          "type": "BOOLEAN",
+          "help": "Enable Pinterest API?",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-pinterest"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Google Maps API",
+          "identifier": "google_maps",
+          "type": "BOOLEAN",
+          "help": "Enable Google Maps API?",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fab fa-maps"
+          },
+          "more_info_url": "https://codotype.io"
+        },
+        {
+          "label": "Chart.js + Alpha Vantage",
+          "identifier": "chartjs",
+          "type": "BOOLEAN",
+          "help": "Chart.js + Alpha Vantage",
+          "default_value": false,
+          "icon": {
+            "type": "ICON_TYPE_URL",
+            "value": "https://www.chartjs.org/img/chartjs-logo.svg"
+          },
+          "more_info_url": "https://www.alphavantage.co/documentation/"
+        }
+      ]
+    },
+    {
+      "label": "Features",
+      "identifier": "features",
+      "description": "Enable specific features in your app",
+      "type": "OPTION_GROUP_TYPE_GLOBAL_OPTION",
+      "attributes": [
+        {
+          "label": "Google Analytics",
+          "identifier": "google_analytics",
+          "type": "BOOLEAN",
+          "help": "Whether or not to include code for Google Analytics. Requires unique Tracking ID.",
+          "default_value": true,
+          "more_info_url": "https://analytics.google.com/analytics/web/",
+          "icon": {
+            "type": "ICON_TYPE_URL",
+            "value": "https://cdn4.iconfinder.com/data/icons/social-media-logos-6/512/108-analytics_google_analytics_google-512.png"
+          }
+        },
+        {
+          "label": "File Uploads",
+          "identifier": "file_uploads",
+          "type": "BOOLEAN",
+          "help": "Whether or not to include code for file uploads with Multer.js",
+          "default_value": true,
+          "more_info_url": "https://github.com/expressjs/multer",
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fa fa-upload"
+          }
+        },
+        {
+          "label": "Contact Form",
+          "identifier": "contact_form",
+          "type": "BOOLEAN",
+          "help": "Whether or not to include code for a Contact form that will send you an email",
+          "default_value": true,
+          "more_info_url": "https://github.com/expressjs/multer",
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "far fa-envelope"
+          }
+        },
+        {
+          "label": "Status Page",
+          "identifier": "status_page",
+          "type": "BOOLEAN",
+          "help": "Whether or not to include code for a Status Page that monitors CPU & Memory usage",
+          "default_value": true,
+          "more_info_url": "https://hackathon-starter-2018.herokuapp.com/status",
+          "icon": {
+            "type": "ICON_TYPE_FONT_AWESOME",
+            "value": "fas fa-tachometer-alt"
+          }
+        }
+      ]
+    },
+    {
+      "label": "Documentation",
+      "identifier": "documentation",
+      "description": "Configure the User Authorization methods for your app",
+      "type": "OPTION_GROUP_TYPE_GLOBAL_OPTION",
+      "attributes": [
+        {
+          "label": "Generate APIDoc Documentation Headers",
+          "identifier": "generate_api_doc",
+          "type": "BOOLEAN",
+          "help": "Whether or not generate APIDoc-compatible comment headers in the API controllers",
+          "default_value": true,
+          "more_info_url": "http://apidocjs.com"
+        }
+      ]
+    }
+  ]
+}
