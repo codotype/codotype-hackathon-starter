@@ -5,11 +5,11 @@ block content
     .col-sm-12
       h2 New <%= schema.label %>
 
-  .row
-    .col-sm-12
-      form(method='POST' action="/<%= schema.identifier_plural %>")
-        input(type='hidden', name='_csrf', value=_csrf)
+  form(method='POST' action="/<%= schema.identifier_plural %>")
+    input(type='hidden', name='_csrf', value=_csrf)
 
+    .row
+      .col-sm-12
         <%_ schema.attributes.forEach((attr) => { _%>
         <%_ if (attr.datatype === DATATYPE_STRING) { _%>
         .form-group
@@ -54,28 +54,27 @@ block content
         .form-group
           label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_id') <%= rel.alias.label %>
           select.form-control(type="text" name='<%= rel.alias.identifier %>_id', id='<%= rel.alias.identifier %>_id')
-            option Test
+            //- option Test
         <%_ } else if (rel.type === RELATION_TYPE_HAS_ONE) { _%>
         .form-group
           label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_id') <%= rel.alias.label %>
           select.form-control(type="text" name='<%= rel.alias.identifier %>_id', id='<%= rel.alias.identifier %>_id')
-            option Test
+            //- option Test
         <%_ } else if (rel.type === RELATION_TYPE_HAS_MANY) { _%>
         //- <%= rel.alias.identifier %>_ids: [],
         .form-group
           label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_ids') <%= rel.alias.label %>
           select.form-control(type="text" name='<%= rel.alias.identifier %>_ids', id='<%= rel.alias.identifier %>_ids' multiple)
-            option Test
+            //- option Test
         <%_ } _%>
         <%_ }) _%>
 
-  .row
-    .col-sm-12.text-right
-      .form-group
-          button.btn.btn-primary(type='submit')
-            i.fa.fa-check.fa-sm
-            | Submit
+      .col-sm-12.text-right
+        .form-group
+            button.btn.btn-primary(type='submit')
+              i.fa.fa-check.fa-sm
+              | Submit
 
-          a.btn.btn-outline-dark.ml-2(href="/<%= schema.identifier_plural %>")
-            i.fa.fa-reply.fa-sm
-            | Back
+            a.btn.btn-outline-dark.ml-2(href="/<%= schema.identifier_plural %>")
+              i.fa.fa-reply.fa-sm
+              | Back
