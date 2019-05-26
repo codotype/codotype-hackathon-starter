@@ -2,6 +2,7 @@ const { promisify } = require('util');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const passport = require('passport');
+const _ = require('lodash');
 const User = require('../models/User');
 
 const randomBytesAsync = promisify(crypto.randomBytes);
@@ -208,11 +209,26 @@ exports.getOauthUnlink = (req, res, next) => {
   const { provider } = req.params;
   User.findById(req.user.id, (err, user) => {
     if (err) { return next(err); }
-    user[provider] = undefined;
-    user.tokens = user.tokens.filter(token => token.kind !== provider);
+    user[provider.toLowerCase()] = undefined;
+    const tokensWithoutProviderToUnlink = user.tokens.filter(token =>
+      token.kind !== provider.toLowerCase());
+    // Some auth providers do not provide an email address in the user profile.
+    // As a result, we need to verify that unlinking the provider is safe by ensuring
+    // that another login method exists.
+    if (
+      !(user.email && user.password)
+      && tokensWithoutProviderToUnlink.length === 0
+    ) {
+      req.flash('errors', {
+        msg: `The ${_.startCase(_.toLower(provider))} account cannot be unlinked without another form of login enabled.`
+          + ' Please link another account or add an email address and password.'
+      });
+      return res.redirect('/account');
+    }
+    user.tokens = tokensWithoutProviderToUnlink;
     user.save((err) => {
       if (err) { return next(err); }
-      req.flash('info', { msg: `${provider} account has been unlinked.` });
+      req.flash('info', { msg: `${_.startCase(_.toLower(provider))} account has been unlinked.` });
       res.redirect('/account');
     });
   });

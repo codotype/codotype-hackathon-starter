@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 
@@ -8,25 +8,28 @@ const userSchema = new mongoose.Schema({
   passwordResetToken: String,
   passwordResetExpires: Date,
 
-  <%_ if (configuration.options.enable_facebook_auth) { _%>
+  <%_ if (configuration.authorization.facebook) { _%>
+  snapchat: String,
+  <%_ } _%>
+  <%_ if (configuration.authorization.facebook) { _%>
   facebook: String,
   <%_ } _%>
-  <%_ if (configuration.options.enable_twitter_auth) { _%>
+  <%_ if (configuration.authorization.twitter) { _%>
   twitter: String,
   <%_ } _%>
-  <%_ if (configuration.options.enable_google_auth) { _%>
+  <%_ if (configuration.authorization.google) { _%>
   google: String,
   <%_ } _%>
-  <%_ if (configuration.options.enable_github_auth) { _%>
+  <%_ if (configuration.authorization.github) { _%>
   github: String,
   <%_ } _%>
-  <%_ if (configuration.options.enable_instagram_auth) { _%>
+  <%_ if (configuration.authorization.instagram) { _%>
   instagram: String,
   <%_ } _%>
-  <%_ if (configuration.options.enable_linkedin_auth) { _%>
+  <%_ if (configuration.authorization.linkedin) { _%>
   linkedin: String,
   <%_ } _%>
-  <%_ if (configuration.options.enable_steam_auth) { _%>
+  <%_ if (configuration.authorization.steam) { _%>
   steam: String,
   <%_ } _%>
   tokens: Array,
@@ -48,7 +51,7 @@ userSchema.pre('save', function save(next) {
   if (!user.isModified('password')) { return next(); }
   bcrypt.genSalt(10, (err, salt) => {
     if (err) { return next(err); }
-    bcrypt.hash(user.password, salt, null, (err, hash) => {
+    bcrypt.hash(user.password, salt, (err, hash) => {
       if (err) { return next(err); }
       user.password = hash;
       next();

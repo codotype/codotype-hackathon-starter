@@ -14,43 +14,47 @@ block content
       .col-md-7
         input.form-control(type='password', name='password', id='password', placeholder='Password', autocomplete='current-password', required)
     .form-group
-      .offset-sm-3.col-md-7.pl-2
+      .offset-md-3.col-md-7.pl-2
         button.col-md-3.btn.btn-primary(type='submit')
           i.far.fa-user.fa-sm
           | Login
         a.btn.btn-link(href='/forgot') Forgot your password?
     .form-group
-      .offset-sm-3.col-md-7.pl-2
+      .offset-md-3.col-md-7.pl-2
         hr
     .form-group
-      .offset-sm-3.col-md-7.pl-2
-
-        <%_ if (configuration.options.enable_facebook_auth) { _%>
+      .offset-md-3.col-md-7.pl-2
+        <%_ if (configuration.authorization.snapchat) { _%>
+        a.btn.btn-block.btn-snapchat.btn-social(href='/auth/snapchat')
+          i.fab.fa-snapchat-ghost.fa-sm
+          | Sign in with Snapchat
+        <%_ } _%>
+        <%_ if (configuration.authorization.facebook) { _%>
         a.btn.btn-block.btn-facebook.btn-social(href='/auth/facebook')
           i.fab.fa-facebook-f.fa-sm
           | Sign in with Facebook
         <%_ } _%>
-        <%_ if (configuration.options.enable_twitter_auth) { _%>
+        <%_ if (configuration.authorization.twitter) { _%>
         a.btn.btn-block.btn-twitter.btn-social(href='/auth/twitter')
           i.fab.fa-twitter.fa-sm
           | Sign in with Twitter
         <%_ } _%>
-        <%_ if (configuration.options.enable_google_auth) { _%>
+        <%_ if (configuration.authorization.google) { _%>
         a.btn.btn-block.btn-google.btn-social(href='/auth/google')
           i.fab.fa-google-plus-g.fa-xs
           | Sign in with Google
         <%_ } _%>
-        <%_ if (configuration.options.enable_github_auth) { _%>
+        <%_ if (configuration.authorization.github) { _%>
         a.btn.btn-block.btn-github.btn-social(href='/auth/github')
           i.fab.fa-github.fa-sm
           | Sign in with GitHub
         <%_ } _%>
-        <%_ if (configuration.options.enable_linkedin_auth) { _%>
+        <%_ if (configuration.authorization.linkedin) { _%>
         a.btn.btn-block.btn-linkedin.btn-social(href='/auth/linkedin')
           i.fab.fa-linkedin-in.fa-sm
           | Sign in with LinkedIn
         <%_ } _%>
-        <%_ if (configuration.options.enable_instagram_auth) { _%>
+        <%_ if (configuration.authorization.instagram) { _%>
         a.btn.btn-block.btn-instagram.btn-social(href='/auth/instagram')
           i.fab.fa-instagram.fa-sm
           | Sign in with Instagram

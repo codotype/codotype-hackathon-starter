@@ -1,57 +1,44 @@
 const { promisify } = require('util');
-const request = require('request');
-<%_ if (configuration.options.enable_web_scraping_api) { _%>
+<%_ if (configuration.api_examples.web_scraping) { _%>
 const cheerio = require('cheerio');
 <%_ } _%>
-<%_ if (configuration.options.enable_facebook_api) { _%>
+<%_ if (configuration.api_examples.facebook) { _%>
 const graph = require('fbgraph');
 <%_ } _%>
-<%_ if (configuration.options.enable_last_fm_api) { _%>
+<%_ if (configuration.api_examples.last_fm) { _%>
 const { LastFmNode } = require('lastfm');
 <%_ } _%>
-<%_ if (configuration.options.enable_tumblr_api) { _%>
+<%_ if (configuration.api_examples.tumblr) { _%>
 const tumblr = require('tumblr.js');
 <%_ } _%>
-<%_ if (configuration.options.enable_github_api) { _%>
+<%_ if (configuration.api_examples.github) { _%>
 const GitHub = require('@octokit/rest');
 <%_ } _%>
-<%_ if (configuration.options.enable_twitter_api) { _%>
+<%_ if (configuration.api_examples.twitter) { _%>
 const Twit = require('twit');
 <%_ } _%>
-<%_ if (configuration.options.enable_stripe_api) { _%>
+<%_ if (configuration.api_examples.stripe) { _%>
 const stripe = require('stripe')(process.env.STRIPE_SKEY);
 <%_ } _%>
-<%_ if (configuration.options.enable_twilio_api) { _%>
+<%_ if (configuration.api_examples.twilio) { _%>
 const twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 <%_ } _%>
-<%_ if (configuration.options.enable_linkedin_api) { _%>
+<%_ if (configuration.api_examples.linkedin) { _%>
 const Linkedin = require('node-linkedin')(process.env.LINKEDIN_ID, process.env.LINKEDIN_SECRET, process.env.LINKEDIN_CALLBACK_URL);
 <%_ } _%>
-<%_ if (configuration.options.enable_clockwork_sms_api) { _%>
+<%_ if (configuration.api_examples.clockwork) { _%>
 const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
 <%_ } _%>
-<%_ if (configuration.options.enable_paypal_api) { _%>
+<%_ if (configuration.api_examples.paypal) { _%>
 const paypal = require('paypal-rest-sdk');
 <%_ } _%>
-<%_ if (configuration.options.enable_lob_api) { _%>
+<%_ if (configuration.api_examples.lob) { _%>
 const lob = require('lob')(process.env.LOB_KEY);
 <%_ } _%>
-<%_ if (configuration.options.enable_instagram_api) { _%>
+<%_ if (configuration.api_examples.instagram) { _%>
 const ig = require('instagram-node').instagram();
 <%_ } _%>
-<%_ if (configuration.options.enable_foursquare_api) { _%>
-const { Venues, Users } = require('node-foursquare')({
-  secrets: {
-    clientId: process.env.FOURSQUARE_ID,
-    clientSecret: process.env.FOURSQUARE_SECRET,
-    redirectUrl: process.env.FOURSQUARE_REDIRECT_URL
-  },
-  foursquare: {
-    mode: 'foursquare',
-    version: 20140806,
-  }
-});
-<%_ } _%>
+const axios = require('axios');
 
 /**
  * GET /api
@@ -62,7 +49,8 @@ exports.getApi = (req, res) => {
     title: 'API Examples'
   });
 };
-<%_ if (configuration.options.enable_foursquare_api) { _%>
+
+<%_ if (configuration.api_examples.foursquare) { _%>
 
 /**
  * GET /api/foursquare
@@ -70,25 +58,31 @@ exports.getApi = (req, res) => {
  */
 exports.getFoursquare = async (req, res, next) => {
   const token = req.user.tokens.find(token => token.kind === 'foursquare');
-  try {
-    const getTrendingAsync = promisify(Venues.getTrending);
-    const getVenueAsync = promisify(Venues.getVenue);
-    const getCheckinsAsync = promisify(Users.getCheckins);
-    const trendingVenues = await getTrendingAsync('40.7222756', '-74.0022724', { limit: 50 }, token.accessToken);
-    const venueDetail = await getVenueAsync('49da74aef964a5208b5e1fe3', token.accessToken);
-    const userCheckins = await getCheckinsAsync('self', null, token.accessToken);
-    return res.render('api/foursquare', {
-      title: 'Foursquare API',
-      trendingVenues,
-      venueDetail,
-      userCheckins
+  let trendingVenues;
+  let venueDetail;
+  let userCheckins;
+  axios.all([
+    axios.get(`https://api.foursquare.com/v2/venues/trending?ll=40.7222756,-74.0022724&limit=50&oauth_token=${token.accessToken}&v=20140806`),
+    axios.get(`https://api.foursquare.com/v2/venues/49da74aef964a5208b5e1fe3?oauth_token=${token.accessToken}&v=20190113`),
+    axios.get(`https://api.foursquare.com/v2/users/self/checkins?oauth_token=${token.accessToken}&v=20190113`)
+  ])
+    .then(axios.spread((trendingVenuesRes, venueDetailRes, userCheckinsRes) => {
+      trendingVenues = trendingVenuesRes.data.response;
+      venueDetail = venueDetailRes.data.response;
+      userCheckins = userCheckinsRes.data.response;
+      res.render('api/foursquare', {
+        title: 'Foursquare API',
+        trendingVenues,
+        venueDetail,
+        userCheckins
+      });
+    }))
+    .catch((error) => {
+      next(error);
     });
-  } catch (err) {
-    return next(err);
-  }
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_tumblr_api) { _%>
+<%_ if (configuration.api_examples.tumblr) { _%>
 
 /**
  * GET /api/tumblr
@@ -112,7 +106,7 @@ exports.getTumblr = (req, res, next) => {
   });
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_facebook_api) { _%>
+<%_ if (configuration.api_examples.facebook) { _%>
 
 /**
  * GET /api/facebook
@@ -130,28 +124,29 @@ exports.getFacebook = (req, res, next) => {
   });
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_web_scraping_api) { _%>
+<%_ if (configuration.api_examples.web_scraping) { _%>
 
 /**
  * GET /api/scraping
  * Web scraping example using Cheerio library.
  */
 exports.getScraping = (req, res, next) => {
-  request.get('https://news.ycombinator.com/', (err, request, body) => {
-    if (err) { return next(err); }
-    const $ = cheerio.load(body);
-    const links = [];
-    $('.title a[href^="http"], a[href^="https"]').each((index, element) => {
-      links.push($(element));
-    });
-    res.render('api/scraping', {
-      title: 'Web Scraping',
-      links
-    });
-  });
+  axios.get('https://news.ycombinator.com/')
+    .then((response) => {
+      const $ = cheerio.load(response.data);
+      const links = [];
+      $('.title a[href^="http"], a[href^="https"]').slice(1).each((index, element) => {
+        links.push($(element));
+      });
+      res.render('api/scraping', {
+        title: 'Web Scraping',
+        links
+      });
+    })
+    .catch(error => next(error));
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_github_api) { _%>
+<%_ if (configuration.api_examples.github) { _%>
 
 /**
  * GET /api/github
@@ -170,7 +165,7 @@ exports.getGithub = async (req, res, next) => {
   }
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_aviary_api) { _%>
+<%_ if (configuration.api_examples.aviary) { _%>
 
 /**
  * GET /api/aviary
@@ -182,31 +177,29 @@ exports.getAviary = (req, res) => {
   });
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_new_york_times_api) { _%>
+<%_ if (configuration.api_examples.new_york_times) { _%>
 
 /**
  * GET /api/nyt
  * New York Times API example.
  */
 exports.getNewYorkTimes = (req, res, next) => {
-  const query = {
-    'list-name': 'young-adult',
-    'api-key': process.env.NYT_KEY
-  };
-  request.get({ url: 'http://api.nytimes.com/svc/books/v2/lists', qs: query }, (err, request, body) => {
-    if (err) { return next(err); }
-    if (request.statusCode === 403) {
-      return next(new Error('Invalid New York Times API Key'));
-    }
-    const books = JSON.parse(body).results;
-    res.render('api/nyt', {
-      title: 'New York Times API',
-      books
+  const apiKey = process.env.NYT_KEY;
+  axios.get(`http://api.nytimes.com/svc/books/v2/lists?list-name=young-adult&api-key=${apiKey}`)
+    .then((response) => {
+      const books = response.data.results;
+      res.render('api/nyt', {
+        title: 'New York Times API',
+        books
+      });
+    })
+    .catch((err) => {
+      const message = JSON.stringify(err.response.data.fault);
+      next(new Error(`New York Times API - ${err.response.status} ${err.response.statusText} ${message}`));
     });
-  });
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_last_fm_api) { _%>
+<%_ if (configuration.api_examples.last_fm) { _%>
 
 /**
  * GET /api/lastfm
@@ -274,7 +267,7 @@ exports.getLastfm = async (req, res, next) => {
       console.error(err);
       // see error code list: https://www.last.fm/api/errorcodes
       switch (err.error) {
-        // potentially handle each code uniquely
+      // potentially handle each code uniquely
         case 10: // Invalid API key
           res.render('api/lastfm', {
             error: err
@@ -291,7 +284,7 @@ exports.getLastfm = async (req, res, next) => {
   }
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_twitter_api) { _%>
+<%_ if (configuration.api_examples.twitter) { _%>
 
 /**
  * GET /api/twitter
@@ -348,7 +341,7 @@ exports.postTwitter = (req, res, next) => {
   });
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_steam_api) { _%>
+<%_ if (configuration.api_examples.steam) { _%>
 
 /**
  * GET /api/steam
@@ -357,55 +350,71 @@ exports.postTwitter = (req, res, next) => {
 exports.getSteam = async (req, res, next) => {
   const steamId = req.user.steam;
   const params = { l: 'english', steamid: steamId, key: process.env.STEAM_KEY };
-  const getAsync = promisify(request.get);
 
-  // get the list of the recently played games, pick the most recent one and get its achievements
-  const getPlayerAchievements = () =>
-    getAsync({ url: 'http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/', qs: params, json: true })
-      .then(({ request, body }) => {
-        if (request.statusCode === 401) {
-          throw new Error('Invalid Steam API Key');
+  // makes a url with search query
+  const makeURL = (baseURL, params) => {
+    const url = new URL(baseURL);
+    const urlParams = new URLSearchParams(params);
+    url.search = urlParams.toString();
+    return url.toString();
+  };
+    // get the list of the recently played games, pick the most recent one and get its achievements
+  const getPlayerAchievements = () => {
+    const recentGamesURL = makeURL('http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/', params);
+    return axios.get(recentGamesURL)
+      .then(({ data }) => {
+        // handle if player owns no games
+        if (Object.keys(data.response).length === 0) {
+          return null;
         }
-        if (body.response.total_count > 0) {
-          params.appid = body.response.games[0].appid;
-          return getAsync({ url: 'http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/', qs: params, json: true })
-            .then(({ request, body }) => {
-              if (request.statusCode === 401) {
-                throw new Error('Invalid Steam API Key');
-              }
-              return body;
-            });
+        // handle if there are no recently played games
+        if (data.response.total_count === 0) {
+          return null;
         }
+        params.appid = data.response.games[0].appid;
+        const achievementsURL = makeURL('http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/', params);
+        return axios.get(achievementsURL)
+          .then(({ data }) => {
+            // handle if there are no achievements for most recent game
+            if (!data.playerstats.achievements) {
+              return null;
+            }
+            return data.playerstats;
+          });
+      })
+      .catch((err) => {
+        if (err.response) {
+          // handle private profile or invalid key
+          if (err.response.status === 403) {
+            return null;
+          }
+        }
+        return Promise.reject(new Error('There was an error while getting achievements'));
       });
+  };
   const getPlayerSummaries = () => {
     params.steamids = steamId;
-    return getAsync({ url: 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/', qs: params, json: true })
-      .then(({ request, body }) => {
-        if (request.statusCode === 401) {
-          throw Error('Missing or Invalid Steam API Key');
-        }
-        return body;
-      });
+    const url = makeURL('http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/', params);
+    return axios.get(url)
+      .then(({ data }) => data)
+      .catch(() => Promise.reject(new Error('There was an error while getting player summary')));
   };
   const getOwnedGames = () => {
     params.include_appinfo = 1;
     params.include_played_free_games = 1;
-    return getAsync({ url: 'http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/', qs: params, json: true })
-      .then(({ request, body }) => {
-        if (request.statusCode === 401) {
-          throw new Error('Missing or Invalid Steam API Key');
-        }
-        return body;
-      });
+    const url = makeURL('http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/', params);
+    return axios.get(url)
+      .then(({ data }) => data)
+      .catch(() => Promise.reject(new Error('There was an error while getting owned games')));
   };
   try {
-    const playerAchievements = await getPlayerAchievements();
+    const playerstats = await getPlayerAchievements();
     const playerSummaries = await getPlayerSummaries();
     const ownedGames = await getOwnedGames();
     res.render('api/steam', {
       title: 'Steam Web API',
       ownedGames: ownedGames.response,
-      playerAchievemments: playerAchievements ? playerAchievements.playerstats : null,
+      playerAchievements: playerstats,
       playerSummary: playerSummaries.response.players[0]
     });
   } catch (err) {
@@ -413,7 +422,7 @@ exports.getSteam = async (req, res, next) => {
   }
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_stripe_api) { _%>
+<%_ if (configuration.api_examples.stripe) { _%>
 
 /**
  * GET /api/stripe
@@ -447,7 +456,7 @@ exports.postStripe = (req, res) => {
   });
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_twilio_api) { _%>
+<%_ if (configuration.api_examples.twilio) { _%>
 
 /**
  * GET /api/twilio
@@ -485,7 +494,7 @@ exports.postTwilio = (req, res, next) => {
   }).catch(next);
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_clockwork_sms_api) { _%>
+<%_ if (configuration.api_examples.clockwork) { _%>
 
 /**
  * GET /api/clockwork
@@ -514,7 +523,7 @@ exports.postClockwork = (req, res, next) => {
   });
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_linkedin_api) { _%>
+<%_ if (configuration.api_examples.linkedin) { _%>
 
 /**
  * GET /api/linkedin
@@ -532,7 +541,40 @@ exports.getLinkedin = (req, res, next) => {
   });
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_instagram_api) { _%>
+<%_ if (configuration.api_examples.chartjs) { _%>
+
+/**
+ * GET /api/chart
+ * Chart example.
+ */
+exports.getChart = async (req, res, next) => {
+  const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&outputsize=compact&apikey=${process.env.ALPHA_VANTAGE_KEY}`;
+  axios.get(url)
+    .then((response) => {
+      const arr = response.data['Time Series (Daily)'];
+      let dates = [];
+      let closing = []; // stock closing value
+      const keys = Object.getOwnPropertyNames(arr);
+      for (let i = 0; i < 100; i++) {
+        dates.push(keys[i]);
+        closing.push(arr[keys[i]]['4. close']);
+      }
+      // reverse so dates appear from left to right
+      dates.reverse();
+      closing.reverse();
+      dates = JSON.stringify(dates);
+      closing = JSON.stringify(closing);
+      res.render('api/chart', {
+        title: 'Chart',
+        dates,
+        closing
+      });
+    }).catch((err) => {
+      next(err);
+    });
+};
+<%_ } _%>
+<%_ if (configuration.api_examples.instagram) { _%>
 
 /**
  * GET /api/instagram
@@ -560,7 +602,7 @@ exports.getInstagram = async (req, res, next) => {
   }
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_paypal_api) { _%>
+<%_ if (configuration.api_examples.paypal) { _%>
 
 /**
  * GET /api/paypal
@@ -632,7 +674,7 @@ exports.getPayPalCancel = (req, res) => {
   });
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_lob_api) { _%>
+<%_ if (configuration.api_examples.lob) { _%>
 
 /**
  * GET /api/lob
@@ -648,6 +690,7 @@ exports.getLob = (req, res, next) => {
   });
 };
 <%_ } _%>
+<%_ if (configuration.features.file_uploads) { _%>
 
 /**
  * GET /api/upload
@@ -664,7 +707,8 @@ exports.postFileUpload = (req, res) => {
   req.flash('success', { msg: 'File was uploaded successfully.' });
   res.redirect('/api/upload');
 };
-<%_ if (configuration.options.enable_pinterest_api) { _%>
+<%_ } _%>
+<%_ if (configuration.api_examples.pinterest) { _%>
 
 /**
  * GET /api/pinterest
@@ -672,15 +716,17 @@ exports.postFileUpload = (req, res) => {
  */
 exports.getPinterest = (req, res, next) => {
   const token = req.user.tokens.find(token => token.kind === 'pinterest');
-  request.get({ url: 'https://api.pinterest.com/v1/me/boards/', qs: { access_token: token.accessToken }, json: true }, (err, request, body) => {
-    if (err) { return next(err); }
-    res.render('api/pinterest', {
-      title: 'Pinterest API',
-      boards: body.data
+  axios.get(`https://api.pinterest.com/v1/me/boards?access_token=${token.accessToken}`)
+    .then((response) => {
+      res.render('api/pinterest', {
+        title: 'Pinterest API',
+        boards: response.data.data
+      });
+    })
+    .catch((error) => {
+      next(error);
     });
-  });
 };
-
 /**
  * POST /api/pinterest
  * Create a pin.
@@ -705,18 +751,18 @@ exports.postPinterest = (req, res, next) => {
     image_url: req.body.image_url
   };
 
-  request.post('https://api.pinterest.com/v1/pins/', { qs: { access_token: token.accessToken }, form: formData }, (err, request, body) => {
-    if (err) { return next(err); }
-    if (request.statusCode !== 201) {
-      req.flash('errors', { msg: JSON.parse(body).message });
-      return res.redirect('/api/pinterest');
-    }
-    req.flash('success', { msg: 'Pin created' });
-    res.redirect('/api/pinterest');
-  });
+  axios.post(`https://api.pinterest.com/v1/pins/?access_token=${token.accessToken}`, formData)
+    .then(() => {
+      req.flash('success', { msg: 'Pin created' });
+      res.redirect('/api/pinterest');
+    })
+    .catch((error) => {
+      req.flash('errors', { msg: error.response.data.message });
+      res.redirect('/api/pinterest');
+    });
 };
 <%_ } _%>
-<%_ if (configuration.options.enable_google_maps_api) { _%>
+<%_ if (configuration.api_examples.google_maps) { _%>
 
 exports.getGoogleMaps = (req, res) => {
   res.render('api/google-maps', {

@@ -22,11 +22,10 @@ const multer = require('multer');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
-
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.load({ path: '.env.example' });
+dotenv.config({ path: '.env.example' });
 
 /**
  * Controllers (route handlers).
@@ -37,7 +36,7 @@ const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
 <%_ blueprint.schemas.forEach((schema) => { _%>
 <%_ if (schema.identifier === 'user') { return } _%>
-const <%= schema.identifier %>Controller = require('./controllers/<%= schema.identifier %>.controller')
+const <%= schema.camel_case %>Controller = require('./controllers/<%= schema.identifier %>')
 <%_ }) _%>
 
 /**
@@ -122,6 +121,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use('/', express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/chart.js/dist'), { maxAge: 31557600000 }));
 app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/popper.js/dist/umd'), { maxAge: 31557600000 }));
 app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js'), { maxAge: 31557600000 }));
 app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/jquery/dist'), { maxAge: 31557600000 }));
@@ -153,13 +153,13 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 <%_ blueprint.schemas.forEach((schema) => { _%>
 <%_ if (schema.identifier === 'user') { return } _%>
 
-app.get('/<%= schema.identifier_plural %>/', <%= schema.identifier %>Controller.list);
-app.get('/<%= schema.identifier_plural %>/new', <%= schema.identifier %>Controller.new);
-app.post('/<%= schema.identifier_plural %>/', <%= schema.identifier %>Controller.create);
-app.get('/<%= schema.identifier_plural %>/:id', <%= schema.identifier %>Controller.show);
-app.get('/<%= schema.identifier_plural %>/:id/edit', <%= schema.identifier %>Controller.edit);
-app.put('/<%= schema.identifier_plural %>/:id', <%= schema.identifier %>Controller.update);
-app.delete('/<%= schema.identifier_plural %>/:id', <%= schema.identifier %>Controller.delete);
+app.get('/<%= schema.identifier_plural %>/', <%= schema.camel_case %>Controller.list);
+app.get('/<%= schema.identifier_plural %>/new', <%= schema.camel_case %>Controller.new);
+app.post('/<%= schema.identifier_plural %>/', <%= schema.camel_case %>Controller.create);
+app.get('/<%= schema.identifier_plural %>/:id', <%= schema.camel_case %>Controller.show);
+app.get('/<%= schema.identifier_plural %>/:id/edit', <%= schema.camel_case %>Controller.edit);
+app.put('/<%= schema.identifier_plural %>/:id', <%= schema.camel_case %>Controller.update);
+app.delete('/<%= schema.identifier_plural %>/:id', <%= schema.camel_case %>Controller.delete);
 
 <%_ }) _%>
 // // // // //
@@ -168,109 +168,119 @@ app.delete('/<%= schema.identifier_plural %>/:id', <%= schema.identifier %>Contr
  * API examples routes.
  */
 app.get('/api', apiController.getApi);
-
-<%_ if (configuration.options.enable_github_api) { _%>
-app.get('/api/github', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getGithub);
-<%_ } _%>
-<%_ if (configuration.options.enable_twitter_api) { _%>
-app.get('/api/twitter', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getTwitter);
-app.post('/api/twitter', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postTwitter);
-<%_ } _%>
-<%_ if (configuration.options.enable_facebook_api) { _%>
-app.get('/api/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
-<%_ } _%>
-<%_ if (configuration.options.enable_foursquare_api) { _%>
-app.get('/api/foursquare', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFoursquare);
-<%_ } _%>
-<%_ if (configuration.options.enable_instagram_api) { _%>
-app.get('/api/instagram', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getInstagram);
-<%_ } _%>
-<%_ if (configuration.options.enable_last_fm_api) { _%>
+<%_ if (configuration.api_examples.last_fm) { _%>
 app.get('/api/lastfm', apiController.getLastfm);
 <%_ } _%>
-<%_ if (configuration.options.enable_linkedin_api) { _%>
-app.get('/api/linkedin', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getLinkedin);
-<%_ } _%>
-<%_ if (configuration.options.enable_new_york_times_api) { _%>
+<%_ if (configuration.api_examples.new_york_times) { _%>
 app.get('/api/nyt', apiController.getNewYorkTimes);
 <%_ } _%>
-<%_ if (configuration.options.enable_steam_api) { _%>
+<%_ if (configuration.api_examples.aviary) { _%>
+app.get('/api/aviary', apiController.getAviary);
+<%_ } _%>
+<%_ if (configuration.api_examples.steam) { _%>
 app.get('/api/steam', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getSteam);
 <%_ } _%>
-<%_ if (configuration.options.enable_stripe_api) { _%>
+<%_ if (configuration.api_examples.stripe) { _%>
 app.get('/api/stripe', apiController.getStripe);
 app.post('/api/stripe', apiController.postStripe);
 <%_ } _%>
-<%_ if (configuration.options.enable_paypal_api) { _%>
+<%_ if (configuration.api_examples.web_scraping) { _%>
+app.get('/api/scraping', apiController.getScraping);
+<%_ } _%>
+<%_ if (configuration.api_examples.twilio) { _%>
+app.get('/api/twilio', apiController.getTwilio);
+app.post('/api/twilio', apiController.postTwilio);
+<%_ } _%>
+<%_ if (configuration.api_examples.clockwork) { _%>
+app.get('/api/clockwork', apiController.getClockwork);
+app.post('/api/clockwork', apiController.postClockwork);
+<%_ } _%>
+<%_ if (configuration.api_examples.foursquare) { _%>
+app.get('/api/foursquare', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFoursquare);
+<%_ } _%>
+<%_ if (configuration.api_examples.tumblr) { _%>
+app.get('/api/tumblr', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getTumblr);
+<%_ } _%>
+<%_ if (configuration.api_examples.facebook) { _%>
+app.get('/api/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
+<%_ } _%>
+<%_ if (configuration.api_examples.github) { _%>
+app.get('/api/github', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getGithub);
+<%_ } _%>
+<%_ if (configuration.api_examples.twitter) { _%>
+app.get('/api/twitter', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getTwitter);
+app.post('/api/twitter', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postTwitter);
+<%_ } _%>
+<%_ if (configuration.api_examples.linkedin) { _%>
+app.get('/api/linkedin', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getLinkedin);
+<%_ } _%>
+<%_ if (configuration.api_examples.instagram) { _%>
+app.get('/api/instagram', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getInstagram);
+<%_ } _%>
+<%_ if (configuration.api_examples.paypal) { _%>
 app.get('/api/paypal', apiController.getPayPal);
 app.get('/api/paypal/success', apiController.getPayPalSuccess);
 app.get('/api/paypal/cancel', apiController.getPayPalCancel);
 <%_ } _%>
-<%_ if (configuration.options.enable_twilio_api) { _%>
-app.get('/api/twilio', apiController.getTwilio);
-app.post('/api/twilio', apiController.postTwilio);
-<%_ } _%>
-<%_ if (configuration.options.enable_tumblr_api) { _%>
-app.get('/api/tumblr', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getTumblr);
-<%_ } _%>
-<%_ if (configuration.options.enable_web_scraping_api) { _%>
-app.get('/api/scraping', apiController.getScraping);
-<%_ } _%>
-<%_ if (configuration.options.enable_clockwork_sms_api) { _%>
-app.get('/api/clockwork', apiController.getClockwork);
-app.post('/api/clockwork', apiController.postClockwork);
-<%_ } _%>
-<%_ if (configuration.options.enable_aviary_api) { _%>
-app.get('/api/aviary', apiController.getAviary);
-<%_ } _%>
-<%_ if (configuration.options.enable_lob_api) { _%>
+<%_ if (configuration.api_examples.lob) { _%>
 app.get('/api/lob', apiController.getLob);
 <%_ } _%>
-<%_ if (configuration.options.enable_pinterest_api) { _%>
+<%_ if (configuration.features.file_upload) { _%>
+app.get('/api/upload', apiController.getFileUpload);
+app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
+<%_ } _%>
+<%_ if (configuration.api_examples.pinterest) { _%>
 app.get('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getPinterest);
 app.post('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postPinterest);
 <%_ } _%>
-<%_ if (configuration.options.enable_google_maps_api) { _%>
+<%_ if (configuration.api_examples.google_maps) { _%>
 app.get('/api/google-maps', apiController.getGoogleMaps);
 <%_ } _%>
-
-app.get('/api/upload', apiController.getFileUpload);
-app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
+<%_ if (configuration.api_examples.chartjs) { _%>
+app.get('/api/chart', apiController.getChart);
+<%_ } _%>
 
 /**
  * OAuth authentication routes. (Sign in)
  */
-<%_ if (configuration.options.enable_instagram_auth) { _%>
+
+<%_ if (configuration.authorization.instagram) { _%>
 app.get('/auth/instagram', passport.authenticate('instagram'));
 app.get('/auth/instagram/callback', passport.authenticate('instagram', { failureRedirect: '/login' }), (req, res) => {
   res.redirect(req.session.returnTo || '/');
 });
 <%_ } _%>
-<%_ if (configuration.options.enable_facebook_auth) { _%>
+<%_ if (configuration.authorization.snapchat) { _%>
+app.get('/auth/snapchat', passport.authenticate('snapchat'));
+app.get('/auth/snapchat/callback', passport.authenticate('snapchat', { failureRedirect: '/login' }), (req, res) => {
+  res.redirect(req.session.returnTo || '/');
+});
+<%_ } _%>
+<%_ if (configuration.authorization.facebook) { _%>
 app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
   res.redirect(req.session.returnTo || '/');
 });
 <%_ } _%>
-<%_ if (configuration.options.enable_github_auth) { _%>
+<%_ if (configuration.authorization.github) { _%>
 app.get('/auth/github', passport.authenticate('github'));
 app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
   res.redirect(req.session.returnTo || '/');
 });
 <%_ } _%>
-<%_ if (configuration.options.enable_google_auth) { _%>
+<%_ if (configuration.authorization.google) { _%>
 app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
   res.redirect(req.session.returnTo || '/');
 });
 <%_ } _%>
-<%_ if (configuration.options.enable_twitter_auth) { _%>
+<%_ if (configuration.authorization.twitter) { _%>
 app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), (req, res) => {
   res.redirect(req.session.returnTo || '/');
 });
 <%_ } _%>
-<%_ if (configuration.options.enable_linkedin_auth) { _%>
+<%_ if (configuration.authorization.linkedin) { _%>
 app.get('/auth/linkedin', passport.authenticate('linkedin', { state: 'SOME STATE' }));
 app.get('/auth/linkedin/callback', passport.authenticate('linkedin', { failureRedirect: '/login' }), (req, res) => {
   res.redirect(req.session.returnTo || '/');
@@ -280,30 +290,22 @@ app.get('/auth/linkedin/callback', passport.authenticate('linkedin', { failureRe
 /**
  * OAuth authorization routes. (API examples)
  */
-<%_ if (configuration.options.enable_foursquare_api) { _%>
 app.get('/auth/foursquare', passport.authorize('foursquare'));
 app.get('/auth/foursquare/callback', passport.authorize('foursquare', { failureRedirect: '/api' }), (req, res) => {
   res.redirect('/api/foursquare');
 });
-<%_ } _%>
-<%_ if (configuration.options.enable_tumblr_api) { _%>
 app.get('/auth/tumblr', passport.authorize('tumblr'));
 app.get('/auth/tumblr/callback', passport.authorize('tumblr', { failureRedirect: '/api' }), (req, res) => {
   res.redirect('/api/tumblr');
 });
-<%_ } _%>
-<%_ if (configuration.options.enable_steam_api) { _%>
 app.get('/auth/steam', passport.authorize('openid', { state: 'SOME STATE' }));
 app.get('/auth/steam/callback', passport.authorize('openid', { failureRedirect: '/api' }), (req, res) => {
   res.redirect(req.session.returnTo);
 });
-<%_ } _%>
-<%_ if (configuration.options.enable_pinterest_api) { _%>
 app.get('/auth/pinterest', passport.authorize('pinterest', { scope: 'read_public write_public' }));
 app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRedirect: '/login' }), (req, res) => {
   res.redirect('/api/pinterest');
 });
-<%_ } _%>
 
 /**
  * Error Handler.

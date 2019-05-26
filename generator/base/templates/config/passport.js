@@ -1,27 +1,31 @@
 const passport = require('passport');
-const request = require('request');
-<%_ if (configuration.options.enable_instagram_auth) { _%>
+const axios = require('axios');
+<%_ if (configuration.authorization.instagram) { _%>
 const { Strategy: InstagramStrategy } = require('passport-instagram');
 <%_ } _%>
 const { Strategy: LocalStrategy } = require('passport-local');
-<%_ if (configuration.options.enable_facebook_auth) { _%>
+<%_ if (configuration.authorization.facebook) { _%>
 const { Strategy: FacebookStrategy } = require('passport-facebook');
 <%_ } _%>
-<%_ if (configuration.options.enable_twitter_auth) { _%>
+<%_ if (configuration.authorization.snapchat) { _%>
+const { Strategy: SnapchatStrategy } = require('passport-snapchat');
+<%_ } _%>
+<%_ if (configuration.authorization.twitter) { _%>
 const { Strategy: TwitterStrategy } = require('passport-twitter');
 <%_ } _%>
-<%_ if (configuration.options.enable_github_auth) { _%>
+<%_ if (configuration.authorization.github) { _%>
 const { Strategy: GitHubStrategy } = require('passport-github');
 <%_ } _%>
-<%_ if (configuration.options.enable_google_auth) { _%>
+<%_ if (configuration.authorization.google) { _%>
 const { OAuth2Strategy: GoogleStrategy } = require('passport-google-oauth');
 <%_ } _%>
-<%_ if (configuration.options.enable_linkedin_auth) { _%>
+<%_ if (configuration.authorization.linkedin) { _%>
 const { Strategy: LinkedInStrategy } = require('passport-linkedin-oauth2');
 <%_ } _%>
 const { Strategy: OpenIDStrategy } = require('passport-openid');
 const { OAuthStrategy } = require('passport-oauth');
 const { OAuth2Strategy } = require('passport-oauth');
+const _ = require('lodash');
 
 const User = require('../models/User');
 
@@ -68,15 +72,71 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, don
  *       - If there is, return an error message.
  *       - Else create a new account.
  */
+<%_ if (configuration.authorization.snapchat) { _%>
 
-<%_ if (configuration.options.enable_facebook_auth) { _%>
+/**
+ * Sign in with Snapchat.
+ */
+passport.use(new SnapchatStrategy({
+  clientID: process.env.SNAPCHAT_ID,
+  clientSecret: process.env.SNAPCHAT_SECRET,
+  callbackURL: '/auth/snapchat/callback',
+  profileFields: ['id', 'displayName', 'bitmoji'],
+  scope: ['user.display_name', 'user.bitmoji.avatar'],
+  passReqToCallback: true
+}, (req, accessToken, refreshToken, profile, done) => {
+  if (req.user) {
+    User.findOne({ snapchat: profile.id }, (err, existingUser) => {
+      if (err) { return done(err); }
+      if (existingUser) {
+        req.flash('errors', { msg: 'There is already a Snapchat account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
+        done(err);
+      } else {
+        User.findById(req.user.id, (err, user) => {
+          if (err) { return done(err); }
+          user.snapchat = profile.id;
+          user.tokens.push({ kind: 'snapchat', accessToken });
+          user.profile.name = user.profile.name || profile.displayName;
+          user.profile.gender = user.profile.gender;
+          user.profile.picture = user.profile.picture || profile.bitmoji.avatarUrl;
+          user.save((err) => {
+            req.flash('info', { msg: 'Snapchat account has been linked.' });
+            done(err, user);
+          });
+        });
+      }
+    });
+  } else {
+    User.findOne({ snapchat: profile.id }, (err, existingUser) => {
+      if (err) { return done(err); }
+      if (existingUser) {
+        return done(null, existingUser);
+      }
+      const user = new User();
+      // Similar to Twitter & Instagram APIs, assign a temporary e-mail address
+      // to get on with the registration process. It can be changed later
+      // to a valid e-mail address in Profile Management.
+      user.email = `${profile.id}@snapchat.com`;
+      user.snapchat = profile.id;
+      user.tokens.push({ kind: 'snapchat', accessToken });
+      user.profile.name = profile.displayName;
+      user.profile.picture = profile.bitmoji.avatarUrl;
+      user.save((err) => {
+        done(err, user);
+      });
+    });
+  }
+}));
+<%_ } _%>
+<%_ if (configuration.authorization.facebook) { _%>
+
 /**
  * Sign in with Facebook.
  */
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_ID,
   clientSecret: process.env.FACEBOOK_SECRET,
-  callbackURL: '/auth/facebook/callback',
+  callbackURL: `${process.env.BASE_URL}/auth/facebook/callback`,
   profileFields: ['name', 'email', 'link', 'locale', 'timezone', 'gender'],
   passReqToCallback: true
 }, (req, accessToken, refreshToken, profile, done) => {
@@ -130,16 +190,17 @@ passport.use(new FacebookStrategy({
   }
 }));
 <%_ } _%>
+<%_ if (configuration.authorization.github) { _%>
 
-<%_ if (configuration.options.enable_github_auth) { _%>
 /**
  * Sign in with GitHub.
  */
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_ID,
   clientSecret: process.env.GITHUB_SECRET,
-  callbackURL: '/auth/github/callback',
-  passReqToCallback: true
+  callbackURL: `${process.env.BASE_URL}/auth/github/callback`,
+  passReqToCallback: true,
+  scope: ['user:email']
 }, (req, accessToken, refreshToken, profile, done) => {
   if (req.user) {
     User.findOne({ github: profile.id }, (err, existingUser) => {
@@ -175,7 +236,7 @@ passport.use(new GitHubStrategy({
           done(err);
         } else {
           const user = new User();
-          user.email = profile._json.email;
+          user.email = _.get(_.orderBy(profile.emails, ['primary', 'verified'], ['desc', 'desc']), [0, 'value'], null);
           user.github = profile.id;
           user.tokens.push({ kind: 'github', accessToken });
           user.profile.name = profile.displayName;
@@ -191,15 +252,15 @@ passport.use(new GitHubStrategy({
   }
 }));
 <%_ } _%>
+<%_ if (configuration.authorization.twitter) { _%>
 
-<%_ if (configuration.options.enable_twitter_auth) { _%>
 /**
  * Sign in with Twitter.
  */
 passport.use(new TwitterStrategy({
   consumerKey: process.env.TWITTER_KEY,
   consumerSecret: process.env.TWITTER_SECRET,
-  callbackURL: '/auth/twitter/callback',
+  callbackURL: `${process.env.BASE_URL}/auth/twitter/callback`,
   passReqToCallback: true
 }, (req, accessToken, tokenSecret, profile, done) => {
   if (req.user) {
@@ -247,8 +308,8 @@ passport.use(new TwitterStrategy({
   }
 }));
 <%_ } _%>
+<%_ if (configuration.authorization.google) { _%>
 
-<%_ if (configuration.options.enable_google_auth) { _%>
 /**
  * Sign in with Google.
  */
@@ -307,8 +368,8 @@ passport.use(new GoogleStrategy({
   }
 }));
 <%_ } _%>
+<%_ if (configuration.authorization.linkedin) { _%>
 
-<%_ if (configuration.options.enable_linkedin_auth) { _%>
 /**
  * Sign in with LinkedIn.
  */
@@ -371,9 +432,8 @@ passport.use(new LinkedInStrategy({
   }
 }));
 <%_ } _%>
+<%_ if (configuration.authorization.instagram) { _%>
 
-
-<%_ if (configuration.options.enable_instagram_auth) { _%>
 /**
  * Sign in with Instagram.
  */
@@ -428,7 +488,6 @@ passport.use(new InstagramStrategy({
 }));
 <%_ } _%>
 
-<%_ if (configuration.options.enable_tumblr_auth) { _%>
 /**
  * Tumblr API OAuth.
  */
@@ -450,9 +509,7 @@ passport.use('tumblr', new OAuthStrategy({
     });
   });
 }));
-<%_ } _%>
 
-<%_ if (configuration.options.enable_foursquare_auth) { _%>
 /**
  * Foursquare API OAuth.
  */
@@ -473,9 +530,7 @@ passport.use('foursquare', new OAuth2Strategy({
     });
   });
 }));
-<%_ } _%>
 
-<%_ if (configuration.options.enable_steam_auth) { _%>
 /**
  * Steam API OpenID.
  */
@@ -501,29 +556,26 @@ passport.use(new OpenIDStrategy({
           if (err) { return done(err); }
           user.steam = steamId;
           user.tokens.push({ kind: 'steam', accessToken: steamId });
-          request(profileURL, (error, response, body) => {
-            if (!error && response.statusCode === 200) {
-              const data = JSON.parse(body);
-              const profile = data.response.players[0];
+          axios.get(profileURL)
+            .then((res) => {
+              const profile = res.data.response.players[0];
               user.profile.name = user.profile.name || profile.personaname;
               user.profile.picture = user.profile.picture || profile.avatarmedium;
               user.save((err) => {
                 done(err, user);
               });
-            } else {
+            })
+            .catch((err) => {
               user.save((err) => { done(err, user); });
-              done(error, null);
-            }
-          });
+              done(err, null);
+            });
         });
       }
     });
   } else {
-    request(profileURL, (error, response, body) => {
-      if (!error && response.statusCode === 200) {
-        const data = JSON.parse(body);
+    axios.get(profileURL)
+      .then(({ data }) => {
         const profile = data.response.players[0];
-
         const user = new User();
         user.steam = steamId;
         user.email = `${steamId}@steam.com`; // steam does not disclose emails, prevent duplicate keys
@@ -533,15 +585,12 @@ passport.use(new OpenIDStrategy({
         user.save((err) => {
           done(err, user);
         });
-      } else {
-        done(error, null);
-      }
-    });
+      }).catch((err) => {
+        done(err, null);
+      });
   }
 }));
-<%_ } _%>
 
-<%_ if (configuration.options.enable_pinterest_auth) { _%>
 /**
  * Pinterest API OAuth.
  */
@@ -562,7 +611,6 @@ passport.use('pinterest', new OAuth2Strategy({
     });
   });
 }));
-<%_ } _%>
 
 /**
  * Login Required middleware.
