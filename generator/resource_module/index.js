@@ -23,6 +23,13 @@ module.exports = {
     // Ensures the presence of the directory
     await this.ensureDir('views/' + schema.identifier)
 
+    // views/resource/confirmDestroy.pug
+    await this.renderComponent({
+      src: 'views/confirmDestroy.pug',
+      dest: 'views/' + schema.identifier + '/confirmDestroy.pug',
+      data: { schema }
+    });
+
     // views/resource/list.pug
     await this.renderComponent({
       src: 'views/list.pug',

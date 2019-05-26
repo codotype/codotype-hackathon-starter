@@ -1,0 +1,25 @@
+#confirmDestroy.modal.fade(tabindex='-1', role='dialog', aria-labelledby='confirmDestroyLabel', aria-hidden='true')
+  .modal-dialog(role='document')
+    form(method='POST' action="/<%= schema.identifier_plural %>").modal-content
+      input(type='hidden', name='_csrf', value=_csrf)
+      input(type='hidden', value='DELETE', name='_method')
+      .modal-header
+        h5#confirmDestroyLabel.modal-title Destroy <%= schema.label %>?
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') ×
+      .modal-body.text-center
+        strong Are you sure you want to destroy this <%= schema.label %>?
+        br
+        small.text-muted This action cannot be undone.
+
+      .modal-footer
+        button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+        button.btn.btn-danger(type='submit') Destroy <%= schema.label %>
+
+script.
+  $('#confirmDestroy').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var recipient = button.data('id') // Extract info from data-* attributes
+    var modal = $(this)
+    modal.find('form').attr('action', '/<%= schema.identifier_plural %>/' + recipient)
+  })

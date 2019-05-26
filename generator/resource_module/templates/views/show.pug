@@ -2,8 +2,21 @@ extends ../layout
 
 block content
   .row
-    .col-sm-12
-      h2 Show <%= schema.label %>
+    .col-sm-8
+      h2 <%= schema.label %> Detail
+    .col-sm-4.text-right
+
+      include ./confirmDestroy.pug
+
+      .btn-group
+        button.btn.btn-outline-dark.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+        .dropdown-menu.dropdown-menu-right(aria-labelledby='dropdownMenuButton')
+          a.dropdown-item(href="/<%= schema.identifier_plural %>/" + model._id + "/edit")
+            i.fa.fa-fw.fa-pencil-alt
+            | Edit
+          a.dropdown-item(href='#' data-toggle='modal', data-target='#confirmDestroy' data-id=model._id)
+            i.fa.fa-fw.fa-trash-alt
+            | Destroy
 
   .row
     .col-sm-12
