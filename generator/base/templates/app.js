@@ -31,13 +31,11 @@ dotenv.config({ path: '.env.example' });
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
-const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 <%_ if (configuration.features.contact_form) { _%>
 const contactController = require('./controllers/contact');
 <%_ } _%>
 <%_ blueprint.schemas.forEach((schema) => { _%>
-<%_ if (schema.identifier === 'user') { return } _%>
 const <%= schema.camel_case %>Controller = require('./controllers/<%= schema.identifier %>')
 <%_ }) _%>
 
@@ -168,7 +166,12 @@ app.use(methodOverride(function(req, res){
 }))
 
 <%_ blueprint.schemas.forEach((schema) => { _%>
-<%_ if (schema.identifier === 'user') { return } _%>
+<%_ if (schema.identifier === 'user') { _%>
+// <%= schema.label %> Routes + Pages
+app.get('/<%= schema.identifier_plural %>/', <%= schema.camel_case %>Controller.list);
+app.get('/<%= schema.identifier_plural %>/:id', <%= schema.camel_case %>Controller.show);
+
+<%_ } else { _%>
 // <%= schema.label %> Routes + Pages
 app.get('/<%= schema.identifier_plural %>/', <%= schema.camel_case %>Controller.list);
 app.get('/<%= schema.identifier_plural %>/new', <%= schema.camel_case %>Controller.new);
@@ -178,6 +181,7 @@ app.get('/<%= schema.identifier_plural %>/:id/edit', <%= schema.camel_case %>Con
 app.put('/<%= schema.identifier_plural %>/:id', <%= schema.camel_case %>Controller.update);
 app.delete('/<%= schema.identifier_plural %>/:id', <%= schema.camel_case %>Controller.delete);
 
+<%_ } _%>
 <%_ }) _%>
 // // // // //
 

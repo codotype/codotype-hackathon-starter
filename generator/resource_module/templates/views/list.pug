@@ -99,6 +99,9 @@ block content
                   .btn-group
                     button.btn.btn-secondary.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                     .dropdown-menu.dropdown-menu-right(aria-labelledby='dropdownMenuButton')
+                      a.dropdown-item(href="/<%= schema.identifier_plural %>/" + <%= schema.identifier %>._id)
+                        i.fa.fa-fw.fa-eye
+                        | Show
                       a.dropdown-item(href="/<%= schema.identifier_plural %>/" + <%= schema.identifier %>._id + "/edit")
                         i.fa.fa-fw.fa-pencil-alt
                         | Edit

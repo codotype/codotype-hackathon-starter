@@ -10,7 +10,6 @@ module.exports.list = (req, res, next) => {
     .lean()
     .exec()
     .then((response) => {
-        console.log(response)
         res.render('<%= schema.identifier %>/list', {
           title: '<%= schema.label_plural %>',
           collection: response

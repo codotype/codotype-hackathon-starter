@@ -69,7 +69,8 @@ block content
         .form-group
           label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_ids') <%= rel.alias.label %>
           select.form-control(type="text" name='<%= rel.alias.identifier %>_ids', id='<%= rel.alias.identifier %>_ids' multiple)
-            //- option Test
+            for <%= rel.alias.camel_case %> in <%= rel.alias.camel_case_plural %>
+              option(value=<%= rel.alias.camel_case %>._id)= <%= rel.alias.camel_case %>.<%= rel.related_lead_attribute %>
         <%_ } _%>
         <%_ }) _%>
 
