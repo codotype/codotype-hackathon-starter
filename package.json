@@ -1,27 +1,16 @@
 {
-  "name": "codotype-hackathon-starter",
+  "name": "@codotype/codotype-hackathon-starter",
   "version": "0.1.0",
   "description": "A Codotype generator built around Sahat's Hackathon Starter",
   "main": "index.js",
-  "scripts": {
-    "test": "node test.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/codotype/codotype-hackathon-starter.git"
   },
-  "author": "",
+  "author": "Alexander Schwartzberg",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/codotype/codotype-hackathon-starter/issues"
   },
-  "homepage": "https://github.com/codotype/codotype-hackathon-starter#readme",
-  "dependencies": {
-    "@codotype/generator": "^0.4.0"
-  },
-  "devDependencies": {
-    "@codotype/blueprints": "^0.2.0",
-    "@codotype/util": "^0.3.0",
-    "@codotype/runtime": "^0.5.0"
-  }
+  "homepage": "https://github.com/codotype/codotype-hackathon-starter#readme"
 }

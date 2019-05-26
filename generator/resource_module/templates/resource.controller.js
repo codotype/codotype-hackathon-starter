@@ -18,23 +18,7 @@ exports.profile = (req, res) => {
 }
 <%_ } _%>
 
-// GET /<%= schema.identifier_plural %>/:id Index
-module.exports.list = (req, res, next) => {
-    return <%= schema.class_name %>
-    .find({})
-    <%_ schema.relations.forEach((rel) => { _%>
-    <%_ if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) { _%>
-    .populate({ path: '<%= rel.alias.identifier %>', select: '<%= rel.related_lead_attribute %>' })
-    <%_ } _%>
-    <%_ }) _%>
-    .then((response) => {
-        res.render('<%= schema.identifier %>/list', {
-          title: '<%= schema.label_plural %>',
-          collection: response
-        });
-    })
-    .catch( err => next(boom.badImplementation(err)) );
-};
+<%- helpers.indent(include('./partials/list-action.js'), 0) %>
 
 // GET /<%= schema.identifier_plural %>/new New
 module.exports.new = (req, res, next) => {
@@ -60,7 +44,7 @@ module.exports.create = (req, res, next) => {
 module.exports.show = (req, res, next) => {
     return <%= schema.class_name %>.findById(req.params.id)
     <%_ schema.relations.forEach((rel) => { _%>
-    <%_ if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) { _%>
+    <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
     .populate({ path: '<%= rel.alias.identifier %>', select: '<%= rel.related_lead_attribute %>' })
     <%_ } else if (rel.type === 'REF_BELONGS_TO') { _%>
     // .populate({ path: '<%= rel.alias.identifier_plural %>', select: '<%= rel.related_lead_attribute %>' })
@@ -75,16 +59,16 @@ module.exports.show = (req, res, next) => {
 };
 
 <%_ schema.relations.forEach((rel) => { _%>
-<%_ if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) { _%>
+<%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
 // GET /<%= schema.identifier_plural %>/:id/<%= rel.alias.identifier %> show<%= rel.alias.class_name %>
 module.exports.show<%= rel.alias.class_name %> = (req, res, next) => {
     return <%= schema.class_name %>.findById(req.params.id)
     .then((<%= schema.identifier %>) => {
 
         return <%= rel.schema.class_name %>.findById(<%= schema.identifier %>.<%= rel.alias.identifier + '_id' %>)
-        <%_ let relatedSchema = blueprint.schemas.find(s => s._id === rel.related_schema_id) _%>
+        <%_ let relatedSchema = blueprint.schemas.find(s => s.id === rel.related_schema_id) _%>
         <%_ relatedSchema.relations.forEach((rel) => { _%>
-        <%_ if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) { _%>
+        <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
         .populate({ path: '<%= rel.alias.identifier %>', select: '<%= rel.related_lead_attribute %>' })
         <%_ } _%>
         <%_ }) _%>
@@ -100,7 +84,7 @@ module.exports.show<%= rel.alias.class_name %> = (req, res, next) => {
     .catch( err => next(boom.badImplementation(err)) );
 };
 
-<% } else if (rel.type === 'HAS_MANY') { %>
+<% } else if (rel.type === RELATION_TYPE_HAS_MANY) { %>
 // GET /<%= schema.identifier_plural %>/:id/<%= rel.schema.identifier_plural %> show<%= rel.schema.class_name_plural %>
 module.exports.show<%= rel.alias.class_name_plural %> = (req, res, next) => {
 
@@ -110,7 +94,7 @@ module.exports.show<%= rel.alias.class_name_plural %> = (req, res, next) => {
         .find({ _id: response.<%= rel.alias.identifier %>_ids })
         <%_ let relatedSchema = blueprint.schemas.find(s => rel.related_schema_id) _%>
         <%_ relatedSchema.relations.forEach((rel) => { _%>
-        <%_ if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) { _%>
+        <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
         .populate({ path: '<%= rel.alias.identifier %>', select: '<%= rel.related_lead_attribute %>' })
         <%_ } _%>
         <%_ }) _%>
@@ -133,7 +117,7 @@ module.exports.show<%= rel.alias.class_name_plural %> = (req, res, next) => {
     .find({ <%= rel.reverse_alias.identifier %>_id: req.params.id })
     <%_ let relatedSchema = blueprint.schemas.find(s => s._id === rel.related_schema_id) _%>
     <%_ relatedSchema.relations.forEach((rel) => { _%>
-    <%_ if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) { _%>
+    <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
     .populate({ path: '<%= rel.alias.identifier %>', select: '<%= rel.related_lead_attribute %>' })
     <%_ } _%>
     <%_ }) _%>

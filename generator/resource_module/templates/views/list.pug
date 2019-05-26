@@ -1,16 +1,47 @@
 extends ../layout
 
 block content
-  h2 <%= schema.label_plural %>
-  a(href="/<%= schema.identifier_plural %>/new") New
+  .row
+    .col-lg-6
+      h2 <%= schema.label_plural %>
 
-  ul.list-group
-    for <%= schema.identifier %> in collection
-      a.list-group-item(href="/<%= schema.identifier_plural %>/" + <%= schema.identifier %>.<%= "_id" %>)
-        =<%= schema.identifier %>.<%= "_id" %>
-        <%_ schema.attributes.forEach((a) => {_%>
-        br
-        =<%= schema.identifier %>.<%= a.identifier %>
-        <%_ }) _%>
+    .col-lg-6.text-right
+      a.btn.btn-outline-primary(href="/<%= schema.identifier_plural %>/new")
+        i.fa.fa-fw.fa-plus
+        | New
 
-  pre= collection
+  .row
+    .col-sm-12
+
+      table.table.table-striped
+        thead
+          th ID
+          <%_ schema.attributes.forEach((a) => {_%>
+          th <%= a.label %>
+          <%_ }) _%>
+          <%_ schema.relations.forEach((r) => {_%>
+          <%_ if (r.type === 'HAS_MANY') { _%>
+          th <%= r.alias.label_plural %>
+          <%_ } else if (['HAS_ONE', 'BELONGS_TO'].includes(r.type)) { _%>
+          th <%= r.alias.label %>
+          <%_ } _%>
+          <%_ }) _%>
+
+        tbody
+          tr
+          for <%= schema.identifier %> in collection
+            tr
+              td
+                a(href="/<%= schema.identifier_plural %>/" + <%= schema.identifier %>.<%= "_id" %>)=<%= schema.identifier %>.<%= "_id" %>
+
+              <%_ schema.attributes.forEach((a) => {_%>
+              td= <%= schema.identifier %>.<%= a.identifier %>
+              <%_ }) _%>
+
+              <%_ schema.relations.forEach((r) => {_%>
+              <%_ if (r.type === 'HAS_MANY') { _%>
+              td= <%= schema.identifier %>.<%= r.alias.identifier + '_ids' %>.length
+              <%_ } else if (['HAS_ONE', 'BELONGS_TO'].includes(r.type)) { _%>
+              td= <%= schema.identifier %>.<%= r.alias.identifier + '_id' %>
+              <%_ } _%>
+              <%_ }) _%>

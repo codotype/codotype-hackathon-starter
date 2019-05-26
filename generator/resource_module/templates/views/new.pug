@@ -7,18 +7,62 @@ block content
     input(type='hidden', name='_csrf', value=_csrf)
 
     <%_ schema.attributes.forEach((attr) => { _%>
-
-    <%_ if (attr.datatype === 'TEXT') { _%>
+    <%_ if (attr.datatype === DATATYPE_STRING) { _%>
     .form-group
-      label(class='col-md-2 col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+      label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
       input.form-control(type="text" name='<%= attr.identifier %>', id='<%= attr.identifier %>')
-    <%_ } else if (attr.datatype === 'NUMBER') { _%>
+    <%_ } else if (attr.datatype === DATATYPE_TEXT) { _%>
     .form-group
-      label(class='col-md-2 col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+      label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+      textarea.form-control(type="text" name='<%= attr.identifier %>', id='<%= attr.identifier %>')
+    <%_ } else if (attr.datatype === DATATYPE_STRING_ARRAY) { _%>
+    .form-group
+      label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+      input.form-control(type="text" name='<%= attr.identifier %>', id='<%= attr.identifier %>')
+    <%_ } else if (attr.datatype === DATATYPE_STRING_SELECT) { _%>
+    .form-group
+      label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+      input.form-control(type="text" name='<%= attr.identifier %>', id='<%= attr.identifier %>')
+    <%_ } else if (attr.datatype === DATATYPE_INTEGER) { _%>
+    .form-group
+      label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+      input.form-control(type="number" step="1" name='<%= attr.identifier %>', id='<%= attr.identifier %>')
+    <%_ } else if (attr.datatype === DATATYPE_FLOAT) { _%>
+    .form-group
+      label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
       input.form-control(type="number" name='<%= attr.identifier %>', id='<%= attr.identifier %>')
+    <%_ } else if (attr.datatype === DATATYPE_BOOLEAN) { _%>
+    .form-group
+      label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+      input.form-control(type="number" name='<%= attr.identifier %>', id='<%= attr.identifier %>')
+    <%_ } else if (attr.datatype === DATATYPE_JSON) { _%>
+    .form-group
+      label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+      input.form-control(type="text" name='<%= attr.identifier %>', id='<%= attr.identifier %>')
+    <%_ } else if (attr.datatype === DATATYPE_DATE) { _%>
+    .form-group
+      label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+      input.form-control(type="date" name='<%= attr.identifier %>', id='<%= attr.identifier %>')
     <%_ } _%>
-
-
+    <%_ }) _%>
+    <%_ schema.relations.forEach((rel) => { _%>
+    <%_ if (rel.type === RELATION_TYPE_BELONGS_TO) { _%>
+    .form-group
+      label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_id') <%= rel.alias.label %>
+      select.form-control(type="text" name='<%= rel.alias.identifier %>_id', id='<%= rel.alias.identifier %>_id')
+        option Test
+    <%_ } else if (rel.type === RELATION_TYPE_HAS_ONE) { _%>
+    .form-group
+      label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_id') <%= rel.alias.label %>
+      select.form-control(type="text" name='<%= rel.alias.identifier %>_id', id='<%= rel.alias.identifier %>_id')
+        option Test
+    <%_ } else if (rel.type === RELATION_TYPE_HAS_MANY) { _%>
+    //- <%= rel.alias.identifier %>_ids: [],
+    .form-group
+      label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_ids') <%= rel.alias.label %>
+      select.form-control(type="text" name='<%= rel.alias.identifier %>_ids', id='<%= rel.alias.identifier %>_ids' multiple)
+        option Test
+    <%_ } _%>
     <%_ }) _%>
 
     .form-group
@@ -26,4 +70,4 @@ block content
 
         button.btn.btn-primary(type='submit')
           i.far.fa-check.fa-sm
-          | Send
+          | Submit

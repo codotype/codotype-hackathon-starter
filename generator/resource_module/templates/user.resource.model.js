@@ -1,157 +1,93 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-const crypto = require('crypto')
+const bcrypt = require('bcrypt');
+const crypto = require('crypto');
+const mongoose = require('mongoose');
 
-// // // //
+const userSchema = new mongoose.Schema({
+  <%- helpers.indent(include('./partials/resource-attributes.js'), 2) -%>
+password: String,
+  passwordResetToken: String,
+  passwordResetExpires: Date,
 
-// Password encryption helper function
-function encryptPassword (password) {
-    return crypto.createHmac('sha1', process.env.PASSWORD_ENCRYPTION_SECRET)
-    .update(password)
-    .digest('base64')
-}
-
-const collection_options = {
-  timestamps: {
-    createdAt: 'createdOn',
-    updatedAt: 'updatedOn'
-  },
-  versionKey: false
-}
-
-const userAttributes = {
-  username: {
-      type: String,
-      required: true
-  },
-  email: {
-      type: String,
-      required: true
-      // TODO - email validation
-  },
-  password: {
-      type: String,
-      required: true
-  },
-  password_reset_token: {
-      type: String
-  },
-  admin: {
-      type: Boolean,
-      default: false
-  },
-  <%_ schema.attributes.forEach((attr) => { _%>
-  <%_ if (attr.datatype.identifier === 'email') { return } _%>
-  <%_ if (attr.datatype.identifier === 'username') { return } _%>
-  <%_ if (attr.datatype === 'BOOL') { _%>
-  <%_ return _%>
-  <%_ } else if (attr.datatype === 'BOOL') { _%>
-  <%= attr.identifier %>: {
-    type: Boolean
-  },
-  <%_ } else if (attr.datatype === 'NUMBER') { _%>
-  <%= attr.identifier %>: {
-    type: Number,
-    required: <%= attr.required %>,
-    unique: <%= attr.unique %>
-  },
-  <%_ } else if (attr.datatype === 'STRING_ARRAY') { _%>
-  <%= attr.identifier %>: [{
-    type: String,
-    required: <%= attr.required %>,
-    unique: <%= attr.unique %>
-  }],
-  <%_ } else { _%>
-  <%= attr.identifier %>: {
-    type: String,
-    required: <%= attr.required %>,
-    unique: <%= attr.unique %>
-  },
+  <%_ if (configuration.authorization.facebook) { _%>
+  snapchat: String,
   <%_ } _%>
-  <%_ }) _%>
-
-  <%_ schema.relations.forEach((rel) => { _%>
-  <%_ if (rel.type === 'BELONGS_TO') { _%>
-  <%= rel.alias.identifier %>: {
-    type: Schema.Types.ObjectId,
-    ref: '<%= rel.schema.class_name %>'
-  },
-  <%_ } else if (rel.type === 'HAS_MANY') { _%>
-  <%= rel.alias.identifier %>_ids: [{
-    type: Schema.Types.ObjectId,
-    ref: '<%= rel.schema.class_name %>'
-  }],
+  <%_ if (configuration.authorization.facebook) { _%>
+  facebook: String,
   <%_ } _%>
-  <%_ }) _%>
-}
+  <%_ if (configuration.authorization.twitter) { _%>
+  twitter: String,
+  <%_ } _%>
+  <%_ if (configuration.authorization.google) { _%>
+  google: String,
+  <%_ } _%>
+  <%_ if (configuration.authorization.github) { _%>
+  github: String,
+  <%_ } _%>
+  <%_ if (configuration.authorization.instagram) { _%>
+  instagram: String,
+  <%_ } _%>
+  <%_ if (configuration.authorization.linkedin) { _%>
+  linkedin: String,
+  <%_ } _%>
+  <%_ if (configuration.authorization.steam) { _%>
+  steam: String,
+  <%_ } _%>
+  tokens: Array,
+
+  profile: {
+    name: String,
+    gender: String,
+    location: String,
+    website: String,
+    picture: String
+  }
+}, { timestamps: true });
+
+/**
+ * Password hash middleware.
+ */
+userSchema.pre('save', function save(next) {
+  const user = this;
+  if (!user.isModified('password')) { return next(); }
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) { return next(err); }
+    bcrypt.hash(user.password, salt, (err, hash) => {
+      if (err) { return next(err); }
+      user.password = hash;
+      next();
+    });
+  });
+});
+
+/**
+ * Helper method for validating user's password.
+ */
+userSchema.methods.comparePassword = function comparePassword(candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+    cb(err, isMatch);
+  });
+};
+
+/**
+ * Helper method for getting user's gravatar.
+ */
+userSchema.methods.gravatar = function gravatar(size) {
+  if (!size) {
+    size = 200;
+  }
+  if (!this.email) {
+    return `https://gravatar.com/avatar/?s=${size}&d=retro`;
+  }
+  const md5 = crypto.createHash('md5').update(this.email).digest('hex');
+  return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
+};
 
 // // // //
 
-const <%= schema.class_name %> = new Schema(userAttributes, collection_options);
+<%- include('./partials/resource-relation-methods.js') %>
 
 // // // //
 
-// Create new User document
-// TODO - add email
-User.statics.create = function ({ name, email, username, password }) {
+const User = mongoose.model('User', userSchema);
 
-    // Instantiates new User model
-    const user = new this({
-        name,
-        email,
-        username,
-        password: encryptPassword(password)
-    })
-
-    // Return User.save() Promise
-    return user.save()
-}
-
-// findOneByUsername
-// Find one User by username
-User.statics.findOneByUsername = function (username) {
-    // Executes MongoDb query
-    return this.findOne({ username }).exec()
-}
-
-// verify
-// Verifies the password parameter of POST /auth/login requests
-User.methods.verify = function (password) {
-    // Verifies saved password against a request's password
-    return this.password === encryptPassword(password)
-}
-
-// assignAdmin
-// Assigns admin priviledges to a user
-User.methods.assignAdmin = function () {
-    // Assigns true to `admin` attribute
-    this.admin = true
-
-    // Returns `save` Promise
-    return this.save()
-}
-
-<%_ schema.relations.forEach((rel) => { _%>
-<%_ if (rel.type === 'BELONGS_TO') { _%>
-
-<%= schema.class_name %>.methods.get<%= rel.alias.class_name %> = function () {
-  return mongoose.model('<%= rel.schema.class_name %>').findById(this.<%= rel.alias.identifier + '_id' %>);
-}
-
-<%_ } else if (rel.type === 'HAS_MANY') { _%>
-
-<%= schema.class_name %>.methods.get<%= rel.alias.class_name_plural %> = function () {
-  return mongoose.model('<%= rel.schema.class_name %>').find({ <%= schema.identifier %>_id: this._id });
-}
-
-<%_ } else if (rel.type === 'HAS_ONE') { _%>
-
-<%= schema.class_name %>.methods.get<%= rel.alias.class_name %> = function () {
-  return mongoose.model('<%= rel.schema.class_name %>').findById(this.<%= rel.identifier + '_id' %> });
-}
-
-<%_ } _%>
-<%_ }) _%>
-
-// TODO - absract schema.class_name
-module.exports = mongoose.model('<%= schema.class_name %>', <%= schema.class_name %>)
+module.exports = User;
