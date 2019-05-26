@@ -156,10 +156,7 @@ module.exports.edit = (req, res, next) => {
 module.exports.update = (req, res, next) => {
     return <%= schema.class_name %>.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
     .then((response) => {
-        return res
-        .status(200)
-        .send(response)
-        .end();
+        return res.redirect('/<%= schema.identifier_plural %>/' + response._id)
     })
     .catch( err => next(boom.badImplementation(err)) );
 };
@@ -168,10 +165,7 @@ module.exports.update = (req, res, next) => {
 module.exports.delete = (req, res, next) => {
     return <%= schema.class_name %>.remove({ _id: req.params.id })
     .then((response) => {
-        return res
-        .status(200)
-        .send(response)
-        .end();
+        return res.redirect('/<%= schema.identifier_plural %>')
     })
     .catch( err => next(boom.badImplementation(err)) );
 };

@@ -5,8 +5,9 @@ block content
     .col-sm-12
       h2 Edit <%= schema.label %>
 
-  form(method='PUT' action="/<%= schema.identifier_plural %>/" + model._id)
+  form(method='POST' action="/<%= schema.identifier_plural %>/" + model._id)
     input(type='hidden', name='_csrf', value=_csrf)
+    input(type='hidden', name='_method', value='PUT')
 
     .row
       .col-sm-12
