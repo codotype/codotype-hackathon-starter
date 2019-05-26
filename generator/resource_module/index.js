@@ -5,7 +5,7 @@ module.exports = {
 
     // Pulls `generate_api_doc` from configuration.options
     // Used to conditionally generate APIDoc headers
-    const { generate_api_doc } = configuration.options
+    const { generate_api_doc } = configuration.documentation
 
     // Defines the schema-specific destination
     // let resourceDest = 'api/' + schema.identifier
@@ -16,56 +16,56 @@ module.exports = {
 
     // server/api/resource/resource.model.js
     if (schema.identifier === 'user') {
-      await this.copyTemplate(
-        this.templatePath('user.resource.model.js'),
-        this.destinationPath('models/' + schema.class_name + '.js'),
-        { schema }
-      );
+      await this.renderComponent({
+        src: 'user.resource.model.js',
+        dest: 'models/' + schema.class_name + '.js',
+        data: { schema }
+      });
     } else {
-      await this.copyTemplate(
-        this.templatePath('resource.model.js'),
-        this.destinationPath('models/' + schema.class_name + '.js'),
-        { schema }
-      );
+      await this.renderComponent({
+        src: 'resource.model.js',
+        dest: 'models/' + schema.class_name + '.js',
+        data: { schema }
+      });
+      // server/api/resource/resource.controller.js
+      await this.renderComponent({
+        src: 'resource.controller.js',
+        dest: 'controllers/' + schema.identifier + '.js',
+        data: { schema, generate_api_doc }
+      });
     }
 
-    // server/api/resource/resource.controller.js
-    await this.copyTemplate(
-      this.templatePath('resource.controller.js'),
-      this.destinationPath('controllers/' + schema.identifier + '.controller.js'),
-      { schema, generate_api_doc }
-    );
 
     // // // //
     // .pug view templates
 
     // views/resource/list.pug
-    await this.copyTemplate(
-      this.templatePath('views/list.pug'),
-      this.destinationPath('views/' + schema.identifier + '/list.pug'),
-      { schema }
-    );
+    await this.renderComponent({
+      src: 'views/list.pug',
+      dest: 'views/' + schema.identifier + '/list.pug',
+      data: { schema }
+    });
 
     // views/resource/new.pug
-    await this.copyTemplate(
-      this.templatePath('views/new.pug'),
-      this.destinationPath('views/' + schema.identifier + '/new.pug'),
-      { schema }
-    );
+    await this.renderComponent({
+      src: 'views/new.pug',
+      dest: 'views/' + schema.identifier + '/new.pug',
+      data: { schema }
+    });
 
     // views/resource/show.pug
-    await this.copyTemplate(
-      this.templatePath('views/show.pug'),
-      this.destinationPath('views/' + schema.identifier + '/show.pug'),
-      { schema }
-    );
+    await this.renderComponent({
+      src: 'views/show.pug',
+      dest: 'views/' + schema.identifier + '/show.pug',
+      data: { schema }
+    });
 
     // views/resource/edit.pug
-    await this.copyTemplate(
-      this.templatePath('views/edit.pug'),
-      this.destinationPath('views/' + schema.identifier + '/edit.pug'),
-      { schema }
-    );
+    await this.renderComponent({
+      src: 'views/edit.pug',
+      dest: 'views/' + schema.identifier + '/edit.pug',
+      data: { schema }
+    });
 
   }
 
