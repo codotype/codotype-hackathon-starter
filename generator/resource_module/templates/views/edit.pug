@@ -50,6 +50,30 @@ block content
           input.form-control(type="date" name='<%= attr.identifier %>', id='<%= attr.identifier %>' value=model.<%= attr.identifier %>)
         <%_ } _%>
         <%_ }) _%>
+        <%_ schema.relations.forEach((rel) => { _%>
+        <%_ if (rel.type === RELATION_TYPE_BELONGS_TO) { _%>
+        .form-group
+          label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_id') <%= rel.alias.label %>
+          select.form-control(type="text" name='<%= rel.alias.identifier %>_id', id='<%= rel.alias.identifier %>_id' value='<%= rel.alias.identifier %>_id')
+            option
+            for <%= rel.alias.camel_case %> in <%= rel.alias.camel_case_plural %>
+              option(value=<%= rel.alias.camel_case %>._id)= <%= rel.alias.camel_case %>.<%= rel.related_lead_attribute %>
+
+        <%_ } else if (rel.type === RELATION_TYPE_HAS_ONE) { _%>
+        .form-group
+          label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_id') <%= rel.alias.label %>
+          select.form-control(type="text" name='<%= rel.alias.identifier %>_id', id='<%= rel.alias.identifier %>_id' value='<%= rel.alias.identifier %>_id')
+            for <%= rel.alias.camel_case %> in <%= rel.alias.camel_case_plural %>
+              option(value=<%= rel.alias.camel_case %>._id)= <%= rel.alias.camel_case %>.<%= rel.related_lead_attribute %>
+
+        <%_ } else if (rel.type === RELATION_TYPE_HAS_MANY) { _%>
+        //- <%= rel.alias.identifier %>_ids: [],
+        .form-group
+          label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_ids') <%= rel.alias.label %>
+          select.form-control(type="text" name='<%= rel.alias.identifier %>_ids', id='<%= rel.alias.identifier %>_ids' multiple)
+            //- option Test
+        <%_ } _%>
+        <%_ }) _%>
 
       .col-sm-12.text-right
         .form-group

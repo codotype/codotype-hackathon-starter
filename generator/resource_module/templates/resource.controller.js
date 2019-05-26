@@ -1,10 +1,16 @@
 const boom = require('boom')
-const <%= schema.class_name %> = require('../models/<%= schema.class_name %>')
+const <%= schema.class_name %>Model = require('../models/<%= schema.class_name %>')
 <%_ let relationImports = [] _%>
 <%_ schema.relations.forEach((relation) => { _%>
 <%_ if (relation.schema.class_name !== schema.class_name && !relationImports.includes(relation.schema.class_name)) { _%>
 <%_ relationImports.push(relation.schema.class_name) _%>
-const <%= relation.schema.class_name %> = require('../models/<%= relation.schema.class_name %>')
+const <%= relation.schema.class_name %>Model = require('../models/<%= relation.schema.class_name %>')
+<%_ } _%>
+<%_ }) _%>
+<%_ schema.reverse_relations.forEach((relation) => { _%>
+<%_ if (relation.schema.class_name !== schema.class_name && !relationImports.includes(relation.schema.class_name)) { _%>
+<%_ relationImports.push(relation.schema.class_name) _%>
+const <%= relation.schema.class_name %>Model = require('../models/<%= relation.schema.class_name %>')
 <%_ } _%>
 <%_ }) _%>
 
@@ -13,7 +19,7 @@ const <%= relation.schema.class_name %> = require('../models/<%= relation.schema
 <%_ if (schema.identifier === 'user') { _%>
 // GET /<%= schema.identifier_plural %> Profile
 exports.profile = (req, res) => {
-    return <%= schema.class_name %>.findOne({ username: req.user.username }, '-password -__v').exec()
+    return <%= schema.class_name %>Model.findOne({ username: req.user.username }, '-password -__v').exec()
     .then( (user) => { res.json(user) })
 }
 <%_ } _%>
@@ -21,9 +27,20 @@ exports.profile = (req, res) => {
 <%- helpers.indent(include('./partials/list-action.js'), 0) %>
 
 // GET /<%= schema.identifier_plural %>/new New
-module.exports.new = (req, res, next) => {
+module.exports.new = async (req, res, next) => {
+    <%_ schema.relations.forEach((rel) => { _%>
+    <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
+    const <%= rel.alias.camel_case_plural %> = await <%= rel.schema.class_name %>Model.find({})
+    <%_ } _%>
+    <%_ }) _%>
+
     res.render('<%= schema.identifier %>/new', {
-      title: 'New <%= schema.label %>'
+      <%_ schema.relations.forEach((rel) => { _%>
+      <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
+      <%= rel.alias.camel_case_plural %>: <%= rel.alias.camel_case_plural %>,
+      <%_ } _%>
+      <%_ }) _%>
+      title: 'New <%= schema.label %>',
     });
 };
 
@@ -32,7 +49,7 @@ module.exports.create = (req, res, next) => {
     <%_ if (schema.identifier === 'user') { _%>
     return User.create(req.body)
     <%_ } else { _%>
-    return new <%= schema.class_name %>(req.body).save()
+    return new <%= schema.class_name %>Model(req.body).save()
     <%_ } _%>
     .then((response) => {
         res.redirect('/<%= schema.identifier_plural %>');
@@ -42,7 +59,7 @@ module.exports.create = (req, res, next) => {
 
 // GET /<%= schema.identifier_plural %>/:id Show
 module.exports.show = (req, res, next) => {
-    return <%= schema.class_name %>.findById(req.params.id)
+    return <%= schema.class_name %>Model.findById(req.params.id)
     <%_ schema.relations.forEach((rel) => { _%>
     <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
     .populate({ path: '<%= rel.alias.identifier %>', select: '<%= rel.related_lead_attribute %>' })
@@ -63,7 +80,7 @@ module.exports.show = (req, res, next) => {
 <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
 // GET /<%= schema.identifier_plural %>/:id/<%= rel.alias.identifier %> show<%= rel.alias.class_name %>
 module.exports.show<%= rel.alias.class_name %> = (req, res, next) => {
-    return <%= schema.class_name %>.findById(req.params.id)
+    return <%= schema.class_name %>Model.findById(req.params.id)
     .then((<%= schema.identifier %>) => {
 
         return <%= rel.schema.class_name %>.findById(<%= schema.identifier %>.<%= rel.alias.identifier + '_id' %>)
@@ -89,7 +106,7 @@ module.exports.show<%= rel.alias.class_name %> = (req, res, next) => {
 // GET /<%= schema.identifier_plural %>/:id/<%= rel.schema.identifier_plural %> show<%= rel.schema.class_name_plural %>
 module.exports.show<%= rel.alias.class_name_plural %> = (req, res, next) => {
 
-    return <%= schema.class_name %>.findById(req.params.id)
+    return <%= schema.class_name %>Model.findById(req.params.id)
     .then((response) => {
         return <%= rel.schema.class_name %>
         .find({ _id: response.<%= rel.alias.identifier %>_ids })
@@ -134,27 +151,29 @@ module.exports.show<%= rel.alias.class_name_plural %> = (req, res, next) => {
 <%_ }) _%>
 
 // GET /<%= schema.identifier_plural %>/:id/edit Edit
-module.exports.edit = (req, res, next) => {
-    return <%= schema.class_name %>.findById(req.params.id)
+module.exports.edit = async (req, res, next) => {
+    const model = await <%= schema.class_name %>Model.findById(req.params.id)
+
     <%_ schema.relations.forEach((rel) => { _%>
     <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
-    .populate({ path: '<%= rel.alias.identifier %>', select: '<%= rel.related_lead_attribute %>' })
-    <%_ } else if (rel.type === 'REF_BELONGS_TO') { _%>
-    // .populate({ path: '<%= rel.alias.identifier_plural %>', select: '<%= rel.related_lead_attribute %>' })
+    const <%= rel.alias.camel_case_plural %> = await <%= rel.schema.class_name %>Model.find({})
     <%_ } _%>
     <%_ }) _%>
-    .then((response) => {
-        res.render('<%= schema.identifier %>/edit', {
-          title: '<%= schema.label %>',
-          model: response
-        });
-    })
-    .catch( err => next(boom.badImplementation(err)) );
+
+    res.render('<%= schema.identifier %>/edit', {
+      <%_ schema.relations.forEach((rel) => { _%>
+      <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
+      <%= rel.alias.camel_case_plural %>: <%= rel.alias.camel_case_plural %>,
+      <%_ } _%>
+      <%_ }) _%>
+      model: model,
+      title: 'Edit <%= schema.label %>',
+    });
 };
 
 // PUT /<%= schema.identifier_plural %>/:id Update
 module.exports.update = (req, res, next) => {
-    return <%= schema.class_name %>.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+    return <%= schema.class_name %>Model.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
     .then((response) => {
         return res.redirect('/<%= schema.identifier_plural %>/' + response._id)
     })
@@ -163,7 +182,7 @@ module.exports.update = (req, res, next) => {
 
 // DELETE /<%= schema.identifier_plural %>/:id Destroy
 module.exports.delete = (req, res, next) => {
-    return <%= schema.class_name %>.remove({ _id: req.params.id })
+    return <%= schema.class_name %>Model.remove({ _id: req.params.id })
     .then((response) => {
         return res.redirect('/<%= schema.identifier_plural %>')
     })

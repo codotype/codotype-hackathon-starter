@@ -32,7 +32,7 @@ block content
             td <%= rel.alias.label %>
             if model.<%= rel.alias.identifier %>_id
               td
-                a(href="'/<%= rel.schema.identifier_plural %>/' + model.<%= rel.alias.identifier + '_id' %>")= model.<%= rel.alias.identifier %>.<%= rel.related_lead_attribute %>
+                a(href="/<%= rel.schema.identifier_plural %>/" + model.<%= rel.alias.identifier + '_id' %>)= model.<%= rel.alias.identifier %>.<%= rel.related_lead_attribute %>
               </td>
             else
               td N/A

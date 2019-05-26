@@ -13,8 +13,9 @@ block content
   .row
     .col-sm-12
 
+      //- // // // //
       //- Delete Modal
-      //- TODO - can this be abstracted a bit?
+      //- TODO - abstract this into a DestroyModal partial, use on show page as well
       #destroyModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='destroyModalLabel', aria-hidden='true')
         .modal-dialog(role='document')
           form(method='POST' action="/<%= schema.identifier_plural %>").modal-content
@@ -40,6 +41,8 @@ block content
           var modal = $(this)
           modal.find('form').attr('action', '/<%= schema.identifier_plural %>/' + recipient)
         })
+      //- //
+      //- // // // //
 
       table.table.table-striped
         thead
@@ -77,13 +80,21 @@ block content
                 td= <%= schema.identifier %>.<%= a.identifier %>
                 <%_ }) _%>
 
-                <%_ schema.relations.forEach((r) => {_%>
-                <%_ if (r.type === 'HAS_MANY') { _%>
-                td= <%= schema.identifier %>.<%= r.alias.identifier + '_ids' %>.length
-                <%_ } else if (['HAS_ONE', 'BELONGS_TO'].includes(r.type)) { _%>
-                td= <%= schema.identifier %>.<%= r.alias.identifier + '_id' %>
+                <%_ schema.relations.forEach((rel) => { _%>
+                <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
+                if (<%= schema.identifier %>.<%= rel.alias.identifier %>_id && <%= schema.identifier %>.<%= rel.alias.identifier %>)
+                  td
+                    a(href="/<%= rel.schema.identifier_plural %>/" + <%= schema.identifier %>.<%= rel.alias.identifier + '_id' %>)= <%= schema.identifier %>.<%= rel.alias.identifier %>.<%= rel.related_lead_attribute %>
+                else
+                  td
+                <%_ } else if (rel.type === RELATION_TYPE_HAS_MANY) { _%>
+                if (<%= schema.identifier %>.<%= rel.alias.identifier %>_ids)
+                  td= <%= schema.identifier %>.<%= rel.alias.identifier %>_ids.length + ' <%=rel.alias.label_plural %>'
+                else
+                  td None
                 <%_ } _%>
                 <%_ }) _%>
+
                 td.text-right
                   .btn-group
                     button.btn.btn-secondary.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')

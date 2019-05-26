@@ -54,12 +54,16 @@ block content
         .form-group
           label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_id') <%= rel.alias.label %>
           select.form-control(type="text" name='<%= rel.alias.identifier %>_id', id='<%= rel.alias.identifier %>_id')
-            //- option Test
+            for <%= rel.alias.camel_case %> in <%= rel.alias.camel_case_plural %>
+              option(value=<%= rel.alias.camel_case %>._id)= <%= rel.alias.camel_case %>.<%= rel.related_lead_attribute %>
+
         <%_ } else if (rel.type === RELATION_TYPE_HAS_ONE) { _%>
         .form-group
           label(class='col-form-label font-weight-bold', for='<%= rel.alias.identifier %>_id') <%= rel.alias.label %>
           select.form-control(type="text" name='<%= rel.alias.identifier %>_id', id='<%= rel.alias.identifier %>_id')
-            //- option Test
+            for <%= rel.alias.camel_case %> in <%= rel.alias.camel_case_plural %>
+              option(value=<%= rel.alias.camel_case %>._id)= <%= rel.alias.camel_case %>.<%= rel.related_lead_attribute %>
+
         <%_ } else if (rel.type === RELATION_TYPE_HAS_MANY) { _%>
         //- <%= rel.alias.identifier %>_ids: [],
         .form-group
