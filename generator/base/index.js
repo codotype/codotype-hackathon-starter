@@ -12,9 +12,6 @@ module.exports = {
     'app.js'
   ],
   async write () {
-    await this.copyDir(
-      this.templatePath(),
-      this.destinationPath()
-    )
+    await this.copyDir({ src: '', dest: '' })
   }
 }
