@@ -1,4 +1,61 @@
-extends layout
+extends ../layout
 
 block content
-  h2 EDIT <%= schema.label %>
+  .row
+    .col-sm-12
+      h2 Edit <%= schema.label %>
+
+  form(method='PUT' action="/<%= schema.identifier_plural %>/" + model._id)
+    input(type='hidden', name='_csrf', value=_csrf)
+
+    .row
+      .col-sm-12
+        <%_ schema.attributes.forEach((attr) => { _%>
+        <%_ if (attr.datatype === DATATYPE_STRING) { _%>
+        .form-group
+          label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+          input.form-control(type="text" name='<%= attr.identifier %>', id='<%= attr.identifier %>' value=model.<%= attr.identifier %>)
+        <%_ } else if (attr.datatype === DATATYPE_TEXT) { _%>
+        .form-group
+          label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+          textarea.form-control(type="text" name='<%= attr.identifier %>', id='<%= attr.identifier %>' value=model.<%= attr.identifier %>)
+        <%_ } else if (attr.datatype === DATATYPE_STRING_ARRAY) { _%>
+        .form-group
+          label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+          input.form-control(type="text" name='<%= attr.identifier %>', id='<%= attr.identifier %>' value=model.<%= attr.identifier %>)
+        <%_ } else if (attr.datatype === DATATYPE_STRING_SELECT) { _%>
+        .form-group
+          label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+          input.form-control(type="text" name='<%= attr.identifier %>', id='<%= attr.identifier %>' value=model.<%= attr.identifier %>)
+        <%_ } else if (attr.datatype === DATATYPE_INTEGER) { _%>
+        .form-group
+          label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+          input.form-control(type="number" step="1" name='<%= attr.identifier %>', id='<%= attr.identifier %>' value=model.<%= attr.identifier %>)
+        <%_ } else if (attr.datatype === DATATYPE_FLOAT) { _%>
+        .form-group
+          label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+          input.form-control(type="number" name='<%= attr.identifier %>', id='<%= attr.identifier %>' value=model.<%= attr.identifier %>)
+        <%_ } else if (attr.datatype === DATATYPE_BOOLEAN) { _%>
+        .form-group
+          label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+          input.form-control(type="number" name='<%= attr.identifier %>', id='<%= attr.identifier %>' value=model.<%= attr.identifier %>)
+        <%_ } else if (attr.datatype === DATATYPE_JSON) { _%>
+        .form-group
+          label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+          input.form-control(type="text" name='<%= attr.identifier %>', id='<%= attr.identifier %>' value=model.<%= attr.identifier %>)
+        <%_ } else if (attr.datatype === DATATYPE_DATE) { _%>
+        .form-group
+          label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+          input.form-control(type="date" name='<%= attr.identifier %>', id='<%= attr.identifier %>' value=model.<%= attr.identifier %>)
+        <%_ } _%>
+        <%_ }) _%>
+
+      .col-sm-12.text-right
+        .form-group
+          button.btn.btn-primary(type='submit')
+            i.fa.fa-check.fa-sm
+            | Update
+
+          a.btn.btn-outline-dark.ml-2(href="/<%= schema.identifier_plural %>")
+            i.fa.fa-reply.fa-sm
+            | Back

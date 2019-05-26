@@ -52,7 +52,8 @@ module.exports.show = (req, res, next) => {
     <%_ }) _%>
     .then((response) => {
         res.render('<%= schema.identifier %>/show', {
-          title: '<%= schema.label %>'
+          title: '<%= schema.label %>',
+          model: response
         });
     })
     .catch( err => next(boom.badImplementation(err)) );
@@ -134,10 +135,18 @@ module.exports.show<%= rel.alias.class_name_plural %> = (req, res, next) => {
 
 // GET /<%= schema.identifier_plural %>/:id/edit Edit
 module.exports.edit = (req, res, next) => {
-    return <%= schema.class_name %>.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+    return <%= schema.class_name %>.findById(req.params.id)
+    <%_ schema.relations.forEach((rel) => { _%>
+    <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
+    .populate({ path: '<%= rel.alias.identifier %>', select: '<%= rel.related_lead_attribute %>' })
+    <%_ } else if (rel.type === 'REF_BELONGS_TO') { _%>
+    // .populate({ path: '<%= rel.alias.identifier_plural %>', select: '<%= rel.related_lead_attribute %>' })
+    <%_ } _%>
+    <%_ }) _%>
     .then((response) => {
         res.render('<%= schema.identifier %>/edit', {
-          title: 'Edit <%= schema.label %>'
+          title: '<%= schema.label %>',
+          model: response
         });
     })
     .catch( err => next(boom.badImplementation(err)) );
