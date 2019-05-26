@@ -14,10 +14,19 @@ module.exports = {
   ],
   async write ({ blueprint }) {
     await this.copyDir({ src: '', dest: '' })
+
+    const userSchema = blueprint.schemas.find(s => s.identifier === 'user')
+
     await this.renderComponent({
       src: 'views/account/signup.pug',
       dest: 'views/account/signup.pug',
-      data: { userSchema: blueprint.schemas.find(s => s.identifier === 'user') }
+      data: { userSchema }
+    })
+
+    await this.renderComponent({
+      src: 'views/account/profile.pug',
+      dest: 'views/account/profile.pug',
+      data: { userSchema }
     })
   }
 }

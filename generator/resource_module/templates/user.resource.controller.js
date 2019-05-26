@@ -189,7 +189,9 @@ exports.postUpdateProfile = (req, res, next) => {
 
   UserModel.findById(req.user.id, (err, user) => {
     if (err) { return next(err); }
-    user.email = req.body.email || '';
+    <%_ schema.attributes.forEach((attr, index) => { _%>
+    user.<%= attr.identifier %> = req.body.<%= attr.identifier %>;
+    <%_ }) _%>
     user.profile.name = req.body.name || '';
     user.profile.gender = req.body.gender || '';
     user.profile.location = req.body.location || '';
