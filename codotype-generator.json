@@ -303,13 +303,13 @@
           "label": "Lob API",
           "identifier": "lob",
           "type": "BOOLEAN",
-          "help": "Enable Lob API?",
+          "help": "Use Lob's API for USPS-certified address verification and to programmatically send personalized postcards and letters.",
           "default_value": false,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fab fa-lob"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/c_thumb,w_200,g_face/v1558928124/product-logos/lob-squarelogo-1495059017513.png"
           },
-          "more_info_url": "https://codotype.io"
+          "more_info_url": "https://lob.com/"
         },
         {
           "label": "Pinterest API",
