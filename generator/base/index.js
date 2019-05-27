@@ -17,6 +17,7 @@ module.exports = {
   async write ({ blueprint }) {
     await this.copyDir({ src: '', dest: '' })
 
+    // FEATURE - should abstract into `this.findSchema('user')` method
     const userSchema = blueprint.schemas.find(s => s.identifier === 'user')
 
     await this.renderComponent({
