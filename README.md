@@ -16,6 +16,28 @@ npm install
 npm test
 ```
 
+
+# # # # # #
+# # # # # #
+
+TODOs
+- [X] Tests Working
+- [X] User List - remove dropdown, replace with show link
+- [X] User Show - remove dropdown
+- [X] Handle option groups in README.md
+- [X] Handle option groups in .env.example
+- [X] Handle option groups in config/passport.js
+- [X] Handle option groups in views/account/profile.pug (linked accounts at the bottom)
+- [X] Handle option groups in Status page middleware in app.js
+- [ ] Handle option groups in package.json - dependencies - lower priority, make a github issue
+- [ ] Add `Contributors Wanted!` notice to README.md, homepage
+- [ ] Add tests for all models, controllers - make a github issue
+- [ ] Add documentation options group to turn on/off parts of README.md
+
+# # # # # #
+# # # # # #
+
+
 <%_ if (configuration.authorization.facebook) { _%>
 <%_ } _%>
 <%_ if (configuration.authorization.twitter) { _%>

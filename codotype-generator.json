@@ -126,8 +126,8 @@
           "help": "Enable Twitter API?",
           "default_value": false,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fab fa-twitter"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558931014/product-logos/twitter-512.png"
           },
           "more_info_url": "https://codotype.io"
         },
@@ -138,8 +138,8 @@
           "help": "Enable Facebook API?",
           "default_value": false,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fab fa-facebook"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558930988/product-logos/facebook-icon-preview-1.png"
           },
           "more_info_url": "https://codotype.io"
         },
@@ -150,8 +150,8 @@
           "help": "Enable Foursquare API?",
           "default_value": false,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fab fa-foursquare"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558930927/product-logos/foursquare-512.png"
           },
           "more_info_url": "https://codotype.io"
         },
@@ -162,8 +162,8 @@
           "help": "Enable Instagram API?",
           "default_value": false,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fab fa-instagram"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558930904/product-logos/Instagram_AppIcon_Aug2017.png"
           },
           "more_info_url": "https://codotype.io"
         },
@@ -171,11 +171,11 @@
           "label": "Last.fm API",
           "identifier": "last_fm",
           "type": "BOOLEAN",
-          "help": "Enable Last.fm API?",
+          "help": "Use the Last.fm API to query data about music artists, albums, tracks, and more.",
           "default_value": true,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fab fa-last-fm"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558930875/product-logos/last_fm-512.png"
           },
           "more_info_url": "https://codotype.io"
         },
@@ -186,8 +186,8 @@
           "help": "Enable LinkedIn API?",
           "default_value": true,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fab fa-linkedin"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558930840/product-logos/square-linkedin-512.png"
           },
           "more_info_url": "https://codotype.io"
         },
@@ -198,8 +198,8 @@
           "help": "Enable New York Times API?",
           "default_value": true,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fa fa-newspaper"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558930814/product-logos/new-york-times-icon.png"
           },
           "more_info_url": "https://codotype.io"
         },
@@ -210,8 +210,8 @@
           "help": "Enable Steam API?",
           "default_value": false,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fab fa-steam"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558930764/product-logos/steam-logo-transparent.png"
           },
           "more_info_url": "https://codotype.io"
         },
@@ -219,11 +219,11 @@
           "label": "Stripe API",
           "identifier": "stripe",
           "type": "BOOLEAN",
-          "help": "Enable Stripe API?",
+          "help": "Use the Stripe API to collect credit card payments through your app.",
           "default_value": false,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fab fa-stripe"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558930739/product-logos/twitter.png"
           },
           "more_info_url": "https://codotype.io"
         },
@@ -231,11 +231,11 @@
           "label": "PayPal API",
           "identifier": "paypal",
           "type": "BOOLEAN",
-          "help": "Enable PayPal API?",
+          "help": "Use the PayPal API to authorize and collect payments through your app.",
           "default_value": false,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fab fa-paypal"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558930714/product-logos/paypal-logo.png"
           },
           "more_info_url": "https://codotype.io"
         },
@@ -243,11 +243,11 @@
           "label": "Twilio API",
           "identifier": "twilio",
           "type": "BOOLEAN",
-          "help": "Enable Twilio API?",
+          "help": "Use the Twilio API to send text messages from your app - requires Twilio App ID and API token.",
           "default_value": false,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fab fa-twilio"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558930682/product-logos/twilio.svg"
           },
           "more_info_url": "https://codotype.io"
         },
@@ -255,35 +255,35 @@
           "label": "Tumblr API",
           "identifier": "tumblr",
           "type": "BOOLEAN",
-          "help": "Enable Tumblr API?",
+          "help": "Use the Tumblr API with Tumblr.js to read and write content to Tumblr blogs.",
           "default_value": false,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fab fa-tumblr"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558930402/product-logos/tumblr-icon-logo-png-transparent.png"
           },
-          "more_info_url": "https://codotype.io"
+          "more_info_url": "https://www.tumblr.com/docs/en/api/v2#blog_methods"
         },
         {
           "label": "Web Scraping API",
           "identifier": "web_scraping",
           "type": "BOOLEAN",
-          "help": "Enable Web Scraping API?",
+          "help": "Include code for scraping websites using Cheerio.js - a fast, flexible, and lean implementation of core jQuery designed specifically for the server.",
           "default_value": false,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "Web fab fa-scraping"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558930643/product-logos/google-chrome-1326908_960_720.png"
           },
-          "more_info_url": "https://codotype.io"
+          "more_info_url": "https://github.com/cheeriojs/cheerio"
         },
         {
           "label": "Clockwork SMS API",
           "identifier": "clockwork_sms",
           "type": "BOOLEAN",
-          "help": "Enable Clockwork SMS API?",
+          "help": "Use the Clockwork SMS API to send and receive SMS through your app.",
           "default_value": false,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "Clockwork fab fa-sms"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558930520/product-logos/clockwork-sms.png"
           },
           "more_info_url": "https://codotype.io"
         },
@@ -291,11 +291,11 @@
           "label": "Aviary API",
           "identifier": "aviary",
           "type": "BOOLEAN",
-          "help": "Enable Aviary API?",
+          "help": "Use the Aviary API to programatically edit and save images.",
           "default_value": false,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fab fa-aviary"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558930486/product-logos/96px-Aviary_Logo.png"
           },
           "more_info_url": "https://codotype.io"
         },
@@ -307,7 +307,7 @@
           "default_value": false,
           "icon": {
             "type": "ICON_TYPE_URL",
-            "value": "https://res.cloudinary.com/codotype/image/upload/c_thumb,w_200,g_face/v1558928124/product-logos/lob-squarelogo-1495059017513.png"
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558928124/product-logos/lob-logo.png"
           },
           "more_info_url": "https://lob.com/"
         },
@@ -318,8 +318,8 @@
           "help": "Enable Pinterest API?",
           "default_value": false,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fab fa-pinterest"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558928786/product-logos/Pinterest-logo-circle.png"
           },
           "more_info_url": "https://codotype.io"
         },
@@ -327,11 +327,11 @@
           "label": "Google Maps API",
           "identifier": "google_maps",
           "type": "BOOLEAN",
-          "help": "Enable Google Maps API?",
+          "help": "Use the Google Maps API to place markers on a map widget inside your app.",
           "default_value": false,
           "icon": {
-            "type": "ICON_TYPE_FONT_AWESOME",
-            "value": "fab fa-maps"
+            "type": "ICON_TYPE_URL",
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558928683/product-logos/1011px-GoogleMaps_logo.svg.png"
           },
           "more_info_url": "https://codotype.io"
         },
@@ -339,11 +339,11 @@
           "label": "Chart.js + Alpha Vantage",
           "identifier": "chartjs",
           "type": "BOOLEAN",
-          "help": "Chart.js + Alpha Vantage",
+          "help": "Include Chart.js visualization with realtime and historical stock data and cryptocurrency feeds through Alpha Vantage",
           "default_value": false,
           "icon": {
             "type": "ICON_TYPE_URL",
-            "value": "https://www.chartjs.org/img/chartjs-logo.svg"
+            "value": "https://res.cloudinary.com/codotype/image/upload/v1558928549/product-logos/chartjs-logo.svg"
           },
           "more_info_url": "https://www.alphavantage.co/documentation/"
         }
@@ -359,7 +359,7 @@
           "label": "Google Analytics",
           "identifier": "google_analytics",
           "type": "BOOLEAN",
-          "help": "Whether or not to include code for Google Analytics. Requires unique Tracking ID.",
+          "help": "Include client-side JavaScript code snippet for Google Analytics tracking - requires unique Tracking ID.",
           "default_value": true,
           "more_info_url": "https://analytics.google.com/analytics/web/",
           "icon": {
@@ -371,7 +371,7 @@
           "label": "File Uploads",
           "identifier": "file_uploads",
           "type": "BOOLEAN",
-          "help": "Whether or not to include code for file uploads with Multer.js",
+          "help": "Include code for file uploads with Multer.js",
           "default_value": true,
           "more_info_url": "https://github.com/expressjs/multer",
           "icon": {
@@ -383,7 +383,7 @@
           "label": "Contact Form",
           "identifier": "contact_form",
           "type": "BOOLEAN",
-          "help": "Whether or not to include code for a Contact form that will send you an email",
+          "help": "Include code for a Contact Form that will send feedback via email.",
           "default_value": true,
           "more_info_url": "https://github.com/expressjs/multer",
           "icon": {
@@ -395,7 +395,7 @@
           "label": "Status Page",
           "identifier": "status_page",
           "type": "BOOLEAN",
-          "help": "Whether or not to include code for a Status Page that monitors CPU & Memory usage",
+          "help": "Include code for a Status Page that monitors CPU & Memory usage",
           "default_value": true,
           "more_info_url": "https://hackathon-starter-2018.herokuapp.com/status",
           "icon": {
