@@ -16,7 +16,9 @@ const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const expressValidator = require('express-validator');
+<%_ if (configuration.features.status_page) { _%>
 const expressStatusMonitor = require('express-status-monitor');
+<%_ } _%>
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 
@@ -69,7 +71,9 @@ app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
 app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+<%_ if (configuration.features.status_page) { _%>
 app.use(expressStatusMonitor());
+<%_ } _%>
 app.use(compression());
 app.use(sass({
   src: path.join(__dirname, 'public'),

@@ -1,7 +1,7 @@
 
 module.exports = {
   name: 'Views',
-  async forEachSchema({ blueprint, schema }) {
+  async forEachSchema({ schema }) {
 
     // .pug view templates
     // Ensures the presence of the directory

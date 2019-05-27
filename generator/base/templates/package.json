@@ -39,9 +39,13 @@
     "express-flash": "^0.0.2",
     "express-handlebars": "^3.1.0",
     "express-session": "^1.16.1",
+    <%_ if (configuration.features.status_page) { _%>
     "express-status-monitor": "^1.2.5",
+    <%_ } _%>
     "express-validator": "^5.3.1",
+    <%_ if (configuration.api_examples.facebook) { _%>
     "fbgraph": "^1.4.4",
+    <%_ } _%>
     "instagram-node": "^0.5.8",
     "jquery": "^3.4.1",
     "lastfm": "^0.9.3",

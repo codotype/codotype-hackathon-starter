@@ -12,6 +12,7 @@ module.exports = {
     'controllers/api.js',
     '.env.example',
     'README.md',
+    'package.json',
     'app.js'
   ],
   async write ({ blueprint }) {

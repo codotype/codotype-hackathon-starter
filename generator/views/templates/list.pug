@@ -4,11 +4,13 @@ block content
   .row
     .col-lg-6
       h2 <%= schema.label_plural %>
+    <%_ if (schema.identifier !== 'user') { _%>
 
     .col-lg-6.text-right
       a.btn.btn-outline-primary(href="/<%= schema.identifier_plural %>/new")
         i.fa.fa-fw.fa-plus
         | New
+    <%_ } _%>
 
   .row
     .col-sm-12
@@ -61,6 +63,7 @@ block content
                 <%_ }) _%>
 
                 td.text-right
+                  <%_ if (schema.identifier !== 'user') { _%>
                   .btn-group
                     button.btn.btn-outline-dark.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                     .dropdown-menu.dropdown-menu-right(aria-labelledby='dropdownMenuButton')
@@ -73,3 +76,8 @@ block content
                       a.dropdown-item(href='#' data-toggle='modal', data-target='#confirmDestroy' data-id=<%= schema.identifier %>._id)
                         i.fa.fa-fw.fa-trash-alt
                         | Destroy
+                  <%_ } else { _%>
+                    a.btn.btn-outline-dark.btn-sm(href="/<%= schema.identifier_plural %>/" + <%= schema.identifier %>._id)
+                      i.fa.fa-fw.fa-eye
+                      | Show
+                  <%_ } _%>

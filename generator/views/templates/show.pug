@@ -7,6 +7,7 @@ block content
     .col-sm-4.text-right
 
       include ./confirmDestroy.pug
+      <%_ if (schema.identifier !== 'user') { _%>
 
       .btn-group
         button.btn.btn-outline-dark.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
@@ -17,6 +18,7 @@ block content
           a.dropdown-item(href='#' data-toggle='modal', data-target='#confirmDestroy' data-id=model._id)
             i.fa.fa-fw.fa-trash-alt
             | Destroy
+      <%_ } _%>
 
   .row
     .col-sm-12
