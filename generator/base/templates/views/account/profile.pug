@@ -96,42 +96,58 @@ block content
   .pb-2.mt-2.mb-4.border-bottom
     h3 Linked Accounts
   .form-group
+    <%_ if (configuration.authorization.instagram) { _%>
     .offset-sm-3.col-md-7.pl-2
       if user.instagram
         p.mb-1: a.text-danger(href='/account/unlink/instagram') Unlink your Instagram account
       else
         p.mb-1: a(href='/auth/instagram') Link your Instagram account
+    <%_ } _%>
+    <%_ if (configuration.authorization.google) { _%>
     .offset-sm-3.col-md-7.pl-2
       if user.google
         p.mb-1: a.text-danger(href='/account/unlink/google') Unlink your Google account
       else
         p.mb-1: a(href='/auth/google') Link your Google account
+    <%_ } _%>
+    <%_ if (configuration.authorization.facebook) { _%>
     .offset-sm-3.col-md-7.pl-2
       if user.facebook
         p.mb-1: a.text-danger(href='/account/unlink/facebook') Unlink your Facebook account
       else
         p.mb-1: a(href='/auth/facebook') Link your Facebook account
+    <%_ } _%>
+    <%_ if (configuration.authorization.snapchat) { _%>
       if user.snapchat
         p.mb-1: a.text-danger(href='/account/unlink/snapchat') Unlink your Snapchat account
       else
         p.mb-1: a(href='/auth/snapchat') Link your Snapchat account
+    <%_ } _%>
+    <%_ if (configuration.authorization.twitter) { _%>
     .offset-sm-3.col-md-7.pl-2
       if user.twitter
         p.mb-1: a.text-danger(href='/account/unlink/twitter') Unlink your Twitter account
       else
         p.mb-1: a(href='/auth/twitter') Link your Twitter account
+    <%_ } _%>
+    <%_ if (configuration.authorization.github) { _%>
     .offset-sm-3.col-md-7.pl-2
       if user.github
         p.mb-1: a.text-danger(href='/account/unlink/github') Unlink your GitHub account
       else
         p.mb-1: a(href='/auth/github') Link your GitHub account
+    <%_ } _%>
+    <%_ if (configuration.authorization.linkedin) { _%>
     .offset-sm-3.col-md-7.pl-2
       if user.linkedin
         p.mb-1: a.text-danger(href='/account/unlink/linkedin') Unlink your LinkedIn account
       else
         p.mb-1: a(href='/auth/linkedin') Link your LinkedIn account
+    <%_ } _%>
+    <%_ if (configuration.api_examples.steam) { _%>
     .offset-sm-3.col-md-7.pl-2
       if user.steam
         p.mb-1: a.text-danger(href='/account/unlink/steam') Unlink your Steam account
       else
         p.mb-1: a(href='/auth/steam') Link your Steam account
+    <%_ } _%>

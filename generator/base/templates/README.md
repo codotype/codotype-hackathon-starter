@@ -163,6 +163,8 @@ credentials.
 all API examples to get you up and running even faster. But don't forget to update
 them with *your credentials* when you are ready to deploy an app.
 
+<%_ if (configuration.authorization.google) { _%>
+
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1000px-Google_2015_logo.svg.png" width="200">
 
 - Visit <a href="https://cloud.google.com/console/project" target="_blank">Google Cloud Console</a>
@@ -188,6 +190,8 @@ e.g. `http://my-awesome-app.herokuapp.com` and
 The same goes for other providers.
 
 <hr>
+<%_ } _%>
+<%_ if (configuration.authorization.snapchat) { _%>
 
 <img src="https://seeklogo.com/images/S/snapchat-logo-F20CDB1199-seeklogo.com.png" height="90">
 
@@ -210,6 +214,8 @@ The same goes for other providers.
 - submit the app for review and wait for approval
 
 <hr>
+<%_ } _%>
+<%_ if (configuration.authorization.facebook) { _%>
 
 <img src="http://www.doit.ba/img/facebook.jpg" width="200">
 
@@ -231,6 +237,8 @@ The same goes for other providers.
 **Note:** After a successful sign in with Facebook, a user will be redirected back to the home page with appended hash `#_=_` in the URL. It is *not* a bug. See this [Stack Overflow](https://stackoverflow.com/questions/7131909/facebook-callback-appends-to-return-url) discussion for ways to handle it.
 
 <hr>
+<%_ } _%>
+<%_ if (configuration.authorization.github) { _%>
 
 <img src="https://github.global.ssl.fastly.net/images/modules/logos_page/GitHub-Logo.png" width="200">
 
@@ -243,6 +251,8 @@ The same goes for other providers.
 - Now copy and paste *Client ID* and *Client Secret* keys into `.env` file
 
 <hr>
+<%_ } _%>
+<%_ if (configuration.authorization.twitter) { _%>
 
 <img src="https://seeklogo.com/images/T/twitter-2012-positive-logo-916EDF1309-seeklogo.com.png" width="90">
 
@@ -257,6 +267,8 @@ The same goes for other providers.
 - Copy and paste *Consumer Key* and *Consumer Secret* keys into `.env` file
 
 <hr>
+<%_ } _%>
+<%_ if (configuration.authorization.linkedin) { _%>
 
 <img src="http://www.danpontefract.com/wp-content/uploads/2014/02/logo-linkedin.png" width="200">
 
@@ -275,6 +287,8 @@ The same goes for other providers.
  - *Secret Key* is your **clientSecret**
 
 <hr>
+<%_ } _%>
+<%_ if (configuration.api_examples.stripe) { _%>
 
 <img src="https://stripe.com/img/about/logos/logos/black@2x.png" width="200">
 
@@ -284,6 +298,8 @@ The same goes for other providers.
 - Copy the **Secret Key**. and add this into `.env` file
 
 <hr>
+<%_ } _%>
+<%_ if (configuration.api_examples.paypal) { _%>
 
 <img src="https://pixabay.com/static/uploads/photo/2015/05/26/09/37/paypal-784404_960_720.png" width="200">
 
@@ -296,6 +312,8 @@ The same goes for other providers.
 - Change **host** to api.paypal.com if you want to test against production and use the live credentials
 
 <hr>
+<%_ } _%>
+<%_ if (configuration.api_examples.foursquare) { _%>
 
 <img src="http://33.media.tumblr.com/ffaf0075be879b3ab0b87f0b8bcc6814/tumblr_inline_n965bkOymr1qzxhga.png" width="200">
 
@@ -308,6 +326,8 @@ The same goes for other providers.
 - Copy and paste *Client ID* and *Client Secret* keys into `.env` file
 
 <hr>
+<%_ } _%>
+<%_ if (configuration.api_examples.stripe) { _%>
 
 <img src="http://img4.wikia.nocookie.net/__cb20130520163346/logopedia/images/8/8d/Tumblr_logo_by_x_1337_x-d5ikwpp.png" width="200">
 
@@ -319,6 +339,8 @@ The same goes for other providers.
 - Copy and paste *OAuth consumer key* and *OAuth consumer secret* keys into `.env` file
 
 <hr>
+<%_ } _%>
+<%_ if (configuration.api_examples.steam) { _%>
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Steam_logo.svg" width="200">
 
@@ -328,6 +350,7 @@ The same goes for other providers.
 - Copy and paste *Key* into `.env` file
 
 <hr>
+<%_ } _%>
 
 <img src="https://sendgrid.com/brand/sg-logo-300.png" width="200">
 
@@ -343,6 +366,7 @@ The same goes for other providers.
 - Sign up and add your *Domain Name*
 - From the domain overview, copy and paste the default SMTP *Login* and *Password* into `.env` file
 
+<%_ if (configuration.api_examples.twilio) { _%>
 <hr>
 
 <img src="https://s3.amazonaws.com/ahoy-assets.twilio.com/global/images/wordmark.svg" width="200">
@@ -351,6 +375,7 @@ The same goes for other providers.
 - Sign up for an account.
 - Once logged into the dashboard, expand the link 'show api credentials'
 - Copy your Account Sid and Auth Token
+<%_ } _%>
 
 Project Structure
 -----------------
@@ -1300,7 +1325,7 @@ listed below.
 - Next, you will need to create an IP address whitelist and obtain the connection URI.  In the Clusters view, under the cluster details (i.e. SANDBOX - Cluster0), click on the **CONNECT** button.
 - Under section **(1) Check the IP Whitelist**, click on **ALLOW ACCESS FROM ANYWHERE**. The form will add a field with `0.0.0.0/0`.  Click **SAVE** to save the `0.0.0.0/0` whitelist.
 - Under section **(2) Choose a connection method**, click on **Connect Your Application**
-- In the new screen, select **Node.js** as Driver and version **2.2.12 or later**. _*WARNING*_: Do not pick 3.0 or later since connect-mongo can't handle mongodb+srv:// connection strings. 
+- In the new screen, select **Node.js** as Driver and version **2.2.12 or later**. _*WARNING*_: Do not pick 3.0 or later since connect-mongo can't handle mongodb+srv:// connection strings.
 - Finally, copy the URI connection string and replace the URI in MONGODB_URI of `.env.example` with this URI string.  Make sure to replace the <PASSWORD> with the db User password that you created under the Security tab.
 - Note that after some of the steps in the Atlas UI, you may see a banner stating `We are deploying your changes`.  You will need to wait for the deployment to finish before using the DB in your application.
 

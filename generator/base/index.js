@@ -11,6 +11,7 @@ module.exports = {
     'views/account/login.pug',
     'controllers/api.js',
     '.env.example',
+    'README.md',
     'app.js'
   ],
   async write ({ blueprint }) {
