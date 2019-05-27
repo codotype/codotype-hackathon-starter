@@ -17,7 +17,6 @@
       "identifier": "authorization",
       "description": "Configure the User Authorization methods for your app",
       "type": "OPTION_GROUP_TYPE_GLOBAL_OPTION",
-      "help": "Which sign up methods would you like so support?",
       "more_info_url": "http://apidocjs.com",
       "attributes": [
         {
@@ -25,77 +24,84 @@
           "identifier": "facebook",
           "type": "BOOLEAN",
           "default_value": true,
+          "help": "Allow users to login and link their Facebook account to your app. Includes dependencies & code to interface with the Facebook Graph API Explorer.",
+          "more_info_url": "http://facebook.com",
           "icon": {
             "type": "ICON_TYPE_FONT_AWESOME",
             "value": "fab fa-facebook"
-          },
-          "more_info_url": "http://facebook.com"
+          }
         },
         {
           "label": "Twitter",
           "identifier": "twitter",
           "type": "BOOLEAN",
           "default_value": false,
+          "help": "Allow users to login and link their Twitter account to your app. Includes dependencies & code to interface with the Twitter API to programatically read and write Tweets.",
+          "more_info_url": "http://twitter.com",
           "icon": {
             "type": "ICON_TYPE_FONT_AWESOME",
             "value": "fab fa-twitter"
-          },
-          "more_info_url": "http://twitter.com"
+          }
         },
         {
           "label": "Google",
           "identifier": "google",
           "type": "BOOLEAN",
           "default_value": false,
+          "help": "Include dependencies & code to interface with the GitHub API to create and update repositories",
+          "more_info_url": "http://google.com",
           "icon": {
             "type": "ICON_TYPE_FONT_AWESOME",
             "value": "fab fa-google"
-          },
-          "more_info_url": "http://google.com"
+          }
         },
         {
           "label": "GitHub",
           "identifier": "github",
           "type": "BOOLEAN",
           "default_value": false,
+          "help": "Include dependencies & code to interface with the GitHub API to create and update repositories",
+          "more_info_url": "http://github.com",
           "icon": {
             "type": "ICON_TYPE_FONT_AWESOME",
             "value": "fab fa-github"
-          },
-          "more_info_url": "http://github.com"
+          }
         },
         {
           "label": "LinkedIn",
           "identifier": "linkedin",
           "type": "BOOLEAN",
           "default_value": false,
+          "help": "Include dependencies & code to interface with the GitHub API to create and update repositories",
+          "more_info_url": "http://linkedin.com",
           "icon": {
             "type": "ICON_TYPE_FONT_AWESOME",
             "value": "fab fa-linkedin"
-          },
-          "more_info_url": "http://linkedin.com"
+          }
         },
         {
           "label": "Instagram",
           "identifier": "instagram",
           "type": "BOOLEAN",
           "default_value": false,
+          "more_info_url": "http://instagram.com",
+          "help": "Include dependencies & code to interface with the GitHub API to create and update repositories",
           "icon": {
             "type": "ICON_TYPE_FONT_AWESOME",
             "value": "fab fa-instagram"
-          },
-          "more_info_url": "http://instagram.com"
+          }
         },
         {
           "label": "Snapchat",
           "identifier": "snapchat",
           "type": "BOOLEAN",
           "default_value": false,
+          "help": "Include dependencies & code to interface with the GitHub API to create and update repositories",
+          "more_info_url": "http://snapchat.com",
           "icon": {
             "type": "ICON_TYPE_FONT_AWESOME",
             "value": "fab fa-snapchat"
-          },
-          "more_info_url": "http://snapchat.com"
+          }
         }
       ]
     },
