@@ -487,6 +487,7 @@ passport.use(new InstagramStrategy({
   }
 }));
 <%_ } _%>
+<%_ if (configuration.api_examples.tumblr) { _%>
 
 /**
  * Tumblr API OAuth.
@@ -509,6 +510,8 @@ passport.use('tumblr', new OAuthStrategy({
     });
   });
 }));
+<%_ } _%>
+<%_ if (configuration.api_examples.foursquare) { _%>
 
 /**
  * Foursquare API OAuth.
@@ -530,6 +533,8 @@ passport.use('foursquare', new OAuth2Strategy({
     });
   });
 }));
+<%_ } _%>
+<%_ if (configuration.api_examples.steam) { _%>
 
 /**
  * Steam API OpenID.
@@ -590,6 +595,8 @@ passport.use(new OpenIDStrategy({
       });
   }
 }));
+<%_ } _%>
+<%_ if (configuration.api_examples.pinterest) { _%>
 
 /**
  * Pinterest API OAuth.
@@ -611,6 +618,7 @@ passport.use('pinterest', new OAuth2Strategy({
     });
   });
 }));
+<%_ } _%>
 
 /**
  * Login Required middleware.

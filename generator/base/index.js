@@ -10,6 +10,7 @@ module.exports = {
     'views/partials/footer.pug',
     'views/account/login.pug',
     'controllers/api.js',
+    '.env.example',
     'app.js'
   ],
   async write ({ blueprint }) {
