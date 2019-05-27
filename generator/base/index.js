@@ -13,6 +13,7 @@ module.exports = {
     '.env.example',
     'README.md',
     'package.json',
+    'test/app.js',
     'app.js'
   ],
   async write ({ blueprint }) {

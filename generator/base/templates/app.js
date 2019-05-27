@@ -250,7 +250,7 @@ app.get('/api/paypal/cancel', apiController.getPayPalCancel);
 <%_ if (configuration.api_examples.lob) { _%>
 app.get('/api/lob', apiController.getLob);
 <%_ } _%>
-<%_ if (configuration.features.file_upload) { _%>
+<%_ if (configuration.features.file_uploads) { _%>
 app.get('/api/upload', apiController.getFileUpload);
 app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
 <%_ } _%>
