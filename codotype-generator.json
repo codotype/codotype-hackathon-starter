@@ -117,7 +117,7 @@
           "label": "GitHub API",
           "identifier": "github",
           "type": "BOOLEAN",
-          "help": "Include dependencies & code to interface with the GitHub API to create and update repositories",
+          "help": "Create and update repositories with the GitHub API.",
           "default_value": false,
           "icon": {
             "type": "ICON_TYPE_FONT_AWESOME",
@@ -129,19 +129,19 @@
           "label": "Twitter API",
           "identifier": "twitter",
           "type": "BOOLEAN",
-          "help": "Enable Twitter API?",
+          "help": "Read Tweets and user profiles with the Twitter API.",
           "default_value": false,
           "icon": {
             "type": "ICON_TYPE_URL",
             "value": "https://res.cloudinary.com/codotype/image/upload/v1558931014/product-logos/twitter-512.png"
           },
-          "more_info_url": "https://codotype.io"
+          "more_info_url": "https://dev.twitter.com/rest/public"
         },
         {
           "label": "Facebook API",
           "identifier": "facebook",
           "type": "BOOLEAN",
-          "help": "Enable Facebook API?",
+          "help": "Read user profiles - including first name, last name, gender, username, link, email, locale, and timezone.",
           "default_value": false,
           "icon": {
             "type": "ICON_TYPE_URL",
@@ -153,25 +153,25 @@
           "label": "Foursquare API",
           "identifier": "foursquare",
           "type": "BOOLEAN",
-          "help": "Enable Foursquare API?",
+          "help": "Read trending venues and user check-ins.",
           "default_value": false,
           "icon": {
             "type": "ICON_TYPE_URL",
             "value": "https://res.cloudinary.com/codotype/image/upload/v1558930927/product-logos/foursquare-512.png"
           },
-          "more_info_url": "https://codotype.io"
+          "more_info_url": "https://developer.foursquare.com/docs/"
         },
         {
           "label": "Instagram API",
           "identifier": "instagram",
           "type": "BOOLEAN",
-          "help": "Enable Instagram API?",
+          "help": "Read user profiles - including username, name, bio, avatar, and recent posts.",
           "default_value": false,
           "icon": {
             "type": "ICON_TYPE_URL",
             "value": "https://res.cloudinary.com/codotype/image/upload/v1558930904/product-logos/Instagram_AppIcon_Aug2017.png"
           },
-          "more_info_url": "https://codotype.io"
+          "more_info_url": "https://github.com/teleportd/instagram-node"
         },
         {
           "label": "Last.fm API",
@@ -183,19 +183,19 @@
             "type": "ICON_TYPE_URL",
             "value": "https://res.cloudinary.com/codotype/image/upload/v1558930875/product-logos/last_fm-512.png"
           },
-          "more_info_url": "https://codotype.io"
+          "more_info_url": "https://github.com/jammus/lastfm-node#lastfm-node"
         },
         {
           "label": "LinkedIn API",
           "identifier": "linkedin",
           "type": "BOOLEAN",
-          "help": "Enable LinkedIn API?",
+          "help": "Read user profile information - including name, profile, positions, and connections.",
           "default_value": true,
           "icon": {
             "type": "ICON_TYPE_URL",
             "value": "https://res.cloudinary.com/codotype/image/upload/v1558930840/product-logos/square-linkedin-512.png"
           },
-          "more_info_url": "https://codotype.io"
+          "more_info_url": "http://developer.linkedin.com/apis"
         },
         {
           "label": "New York Times API",
@@ -207,13 +207,13 @@
             "type": "ICON_TYPE_URL",
             "value": "https://res.cloudinary.com/codotype/image/upload/v1558930814/product-logos/new-york-times-icon.png"
           },
-          "more_info_url": "https://codotype.io"
+          "more_info_url": "https://developer.valvesoftware.com/wiki/Steam_Web_API"
         },
         {
           "label": "Steam API",
           "identifier": "steam",
           "type": "BOOLEAN",
-          "help": "Enable Steam API?",
+          "help": "Use the Steam API to read Player Summaries - including avatars, achievements and owned games.",
           "default_value": false,
           "icon": {
             "type": "ICON_TYPE_URL",
