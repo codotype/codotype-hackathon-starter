@@ -1,7 +1,7 @@
 ### v0.1.0
 
 #### Changes
-* TODO - add changes
+* Added `codotype-generator.json`
 
 #### Documentation
 * TODO - add changes

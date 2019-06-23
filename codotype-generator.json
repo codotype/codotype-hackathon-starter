@@ -9,14 +9,17 @@
   "project_path": "hackathon_starter",
   "github_url": "codotype/codotype-hackathon-starter-generator",
   "version": "0.1.0",
-  "experience": "Intermediate",
   "official": true,
-  "option_groups": [
+  "experience": "Intermediate",
+  "defaultSchemas": [],
+  "defaultConfiguration": {},
+  "configuration_groups": [
     {
       "label": "Authorization",
       "identifier": "authorization",
       "description": "Configure the User Authorization methods for your app",
-      "type": "OPTION_GROUP_TYPE_GLOBAL_OPTION",
+      "type": "CONFIGURATION_GROUP_TYPE_OPTION",
+      "scope": "CONFIGURATION_GROUP_SCOPE_GLOBAL",
       "more_info_url": "http://apidocjs.com",
       "attributes": [
         {
@@ -110,7 +113,8 @@
       "identifier": "api_examples",
       "description": "Configure which API examples are included with your app",
       "help": "Which API Examples would you like included with your boilerplate?",
-      "type": "OPTION_GROUP_TYPE_GLOBAL_OPTION",
+      "type": "CONFIGURATION_GROUP_TYPE_OPTION",
+      "scope": "CONFIGURATION_GROUP_SCOPE_GLOBAL",
       "more_info_url": "http://apidocjs.com",
       "attributes": [
         {
@@ -359,7 +363,8 @@
       "label": "Features",
       "identifier": "features",
       "description": "Enable specific features in your app",
-      "type": "OPTION_GROUP_TYPE_GLOBAL_OPTION",
+      "type": "CONFIGURATION_GROUP_TYPE_OPTION",
+      "scope": "CONFIGURATION_GROUP_SCOPE_GLOBAL",
       "attributes": [
         {
           "label": "Google Analytics",
@@ -415,7 +420,8 @@
       "label": "Documentation",
       "identifier": "documentation",
       "description": "Configure the User Authorization methods for your app",
-      "type": "OPTION_GROUP_TYPE_GLOBAL_OPTION",
+      "type": "CONFIGURATION_GROUP_TYPE_OPTION",
+      "scope": "CONFIGURATION_GROUP_SCOPE_GLOBAL",
       "attributes": [
         {
           "label": "Generate APIDoc Documentation Headers",
