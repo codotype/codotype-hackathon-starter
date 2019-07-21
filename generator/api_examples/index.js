@@ -10,7 +10,7 @@ module.exports = {
     if (api_examples.instagram) await this.renderComponent({ src: 'instagram.pug', dest: 'views/api/instagram.pug' });
     if (api_examples.last_fm) await this.renderComponent({ src: 'lastfm.pug', dest: 'views/api/lastfm.pug' });
     if (api_examples.linkedin) await this.renderComponent({ src: 'linkedin.pug', dest: 'views/api/linkedin.pug' });
-    if (api_examples.new_york_times) await this.renderComponent({ src: 'nyt.pug', dest: 'views/api/nyt.pug' });
+    // if (api_examples.new_york_times) await this.renderComponent({ src: 'nyt.pug', dest: 'views/api/nyt.pug' });
     if (api_examples.steam) await this.renderComponent({ src: 'steam.pug', dest: 'views/api/steam.pug' });
     if (api_examples.stripe) await this.renderComponent({ src: 'stripe.pug', dest: 'views/api/stripe.pug' });
     if (api_examples.paypal) await this.renderComponent({ src: 'paypal.pug', dest: 'views/api/paypal.pug' });

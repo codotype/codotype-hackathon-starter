@@ -63,6 +63,8 @@ module.exports.show = (req, res, next) => {
     // .populate({ path: '<%= rel.alias.identifier_plural %>', select: '<%= rel.related_lead_attribute %>' })
     <%_ } _%>
     <%_ }) _%>
+    .lean()
+    .exec()
     .then((response) => {
         res.render('<%= schema.identifier %>/show', {
           title: '<%= schema.label %>',
@@ -74,7 +76,7 @@ module.exports.show = (req, res, next) => {
 
 // GET /<%= schema.identifier_plural %>/:id/edit Edit
 module.exports.edit = async (req, res, next) => {
-    const model = await <%= schema.class_name %>Model.findById(req.params.id)
+    const model = await <%= schema.class_name %>Model.findById(req.params.id).lean().exec()
 
     <%_ let queriedSchemasEdit = [] _%>
     <%_ schema.relations.forEach((rel) => { _%>
