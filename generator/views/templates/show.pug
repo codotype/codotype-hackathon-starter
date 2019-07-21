@@ -45,10 +45,9 @@ block content
         <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
           tr
             td <%= rel.alias.label %>
-            if model.<%= rel.alias.identifier %>_id
+            if model.<%= rel.alias.identifier %>_id && model.<%= rel.alias.identifier %>
               td
                 a(href="/<%= rel.schema.identifier_plural %>/" + model.<%= rel.alias.identifier + '_id' %>)= model.<%= rel.alias.identifier %>.<%= rel.related_lead_attribute %>
-              </td>
             else
               td N/A
         <%_ } else if ([RELATION_TYPE_HAS_MANY].includes(rel.type)) { _%>
