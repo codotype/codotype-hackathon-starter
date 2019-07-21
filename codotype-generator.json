@@ -11,7 +11,39 @@
   "version": "0.1.0",
   "official": true,
   "experience": "Intermediate",
-  "defaultSchemas": [],
+  "supportedDatatypes": [],
+  "supportedRelations": [],
+  "defaultSchemas": [
+    {
+      "id": "USER_SCHEMA_ID",
+      "order": 0,
+      "locked": false,
+      "removable": false,
+      "source": "GENERATOR",
+      "label": "User",
+      "label_plural": "Users",
+      "identifier": "user",
+      "identifier_plural": "users",
+      "class_name": "User",
+      "class_name_plural": "Users",
+      "attributes": [
+        {
+          "id": "USER_EMAIL_ATTRIBUTE_ID",
+          "order": 1,
+          "label": "E-Mail",
+          "identifier": "email",
+          "help": "The E-Mail address associated with this User",
+          "required": true,
+          "unique": true,
+          "datatype": "STRING",
+          "default_value": "",
+          "datatypeOptions": {},
+          "locked": true
+        }
+      ],
+      "relations": []
+    }
+  ],
   "defaultConfiguration": {},
   "configuration_groups": [
     {
@@ -27,7 +59,7 @@
           "identifier": "facebook",
           "type": "BOOLEAN",
           "default_value": true,
-          "help": "Allow users to login and link their Facebook account to your app. Includes dependencies & code to interface with the Facebook Graph API Explorer.",
+          "help": "Allow users to login and link their Facebook account to your app with Oauth 2.0. Includes dependencies & code to interface with the Facebook Graph API Explorer.",
           "more_info_url": "http://facebook.com",
           "icon": {
             "type": "ICON_TYPE_FONT_AWESOME",
@@ -39,7 +71,7 @@
           "identifier": "twitter",
           "type": "BOOLEAN",
           "default_value": false,
-          "help": "Allow users to login and link their Twitter account to your app. Includes dependencies & code to interface with the Twitter API to programatically read and write Tweets.",
+          "help": "Allow users to login and link their Twitter account to your app with OAuth 1.0a. Includes dependencies & code to interface with the Twitter API to programatically read and write Tweets.",
           "more_info_url": "http://twitter.com",
           "icon": {
             "type": "ICON_TYPE_FONT_AWESOME",
@@ -51,7 +83,7 @@
           "identifier": "google",
           "type": "BOOLEAN",
           "default_value": false,
-          "help": "Include dependencies & code to interface with the GitHub API to create and update repositories",
+          "help": "Allow users to login and link their Google account to your app with Oauth 2.0.",
           "more_info_url": "http://google.com",
           "icon": {
             "type": "ICON_TYPE_FONT_AWESOME",
@@ -63,7 +95,7 @@
           "identifier": "github",
           "type": "BOOLEAN",
           "default_value": false,
-          "help": "Include dependencies & code to interface with the GitHub API to create and update repositories",
+          "help": "Allow users to login and link their GitHub account to your app with Oauth 2.0.",
           "more_info_url": "http://github.com",
           "icon": {
             "type": "ICON_TYPE_FONT_AWESOME",
@@ -75,7 +107,7 @@
           "identifier": "linkedin",
           "type": "BOOLEAN",
           "default_value": false,
-          "help": "Include dependencies & code to interface with the GitHub API to create and update repositories",
+          "help": "Allow users to login and link their LinkedIn account to your app with Oauth 2.0.",
           "more_info_url": "http://linkedin.com",
           "icon": {
             "type": "ICON_TYPE_FONT_AWESOME",
@@ -88,7 +120,7 @@
           "type": "BOOLEAN",
           "default_value": false,
           "more_info_url": "http://instagram.com",
-          "help": "Include dependencies & code to interface with the GitHub API to create and update repositories",
+          "help": "Allow users to login and link their Instagram account to your app with Oauth 2.0.",
           "icon": {
             "type": "ICON_TYPE_FONT_AWESOME",
             "value": "fab fa-instagram"
@@ -99,7 +131,7 @@
           "identifier": "snapchat",
           "type": "BOOLEAN",
           "default_value": false,
-          "help": "Include dependencies & code to interface with the GitHub API to create and update repositories",
+          "help": "Allow users to login and link their Snapchat account to your app with Oauth 2.0.",
           "more_info_url": "http://snapchat.com",
           "icon": {
             "type": "ICON_TYPE_FONT_AWESOME",
@@ -145,7 +177,7 @@
           "label": "Facebook API",
           "identifier": "facebook",
           "type": "BOOLEAN",
-          "help": "Read user profiles - including first name, last name, gender, username, link, email, locale, and timezone.",
+          "help": "Use the Facebook API to read user profiles - including first name, last name, gender, username, link, email, locale, and timezone.",
           "default_value": false,
           "icon": {
             "type": "ICON_TYPE_URL",
@@ -157,7 +189,7 @@
           "label": "Foursquare API",
           "identifier": "foursquare",
           "type": "BOOLEAN",
-          "help": "Read trending venues and user check-ins.",
+          "help": "Use the Foursquare API to read trending venues and user check-ins.",
           "default_value": false,
           "icon": {
             "type": "ICON_TYPE_URL",
@@ -169,7 +201,7 @@
           "label": "Instagram API",
           "identifier": "instagram",
           "type": "BOOLEAN",
-          "help": "Read user profiles - including username, name, bio, avatar, and recent posts.",
+          "help": "Use the Instagram API to read user profiles - including username, name, bio, avatar, and recent posts.",
           "default_value": false,
           "icon": {
             "type": "ICON_TYPE_URL",
@@ -193,25 +225,13 @@
           "label": "LinkedIn API",
           "identifier": "linkedin",
           "type": "BOOLEAN",
-          "help": "Read user profile information - including name, profile, positions, and connections.",
+          "help": "Use the LinkedIn API to read user profile information - including name, profile, positions, and connections.",
           "default_value": true,
           "icon": {
             "type": "ICON_TYPE_URL",
             "value": "https://res.cloudinary.com/codotype/image/upload/v1558930840/product-logos/square-linkedin-512.png"
           },
           "more_info_url": "http://developer.linkedin.com/apis"
-        },
-        {
-          "label": "New York Times API",
-          "identifier": "new_york_times",
-          "type": "BOOLEAN",
-          "help": "Enable New York Times API?",
-          "default_value": true,
-          "icon": {
-            "type": "ICON_TYPE_URL",
-            "value": "https://res.cloudinary.com/codotype/image/upload/v1558930814/product-logos/new-york-times-icon.png"
-          },
-          "more_info_url": "https://developer.valvesoftware.com/wiki/Steam_Web_API"
         },
         {
           "label": "Steam API",
@@ -325,7 +345,7 @@
           "label": "Pinterest API",
           "identifier": "pinterest",
           "type": "BOOLEAN",
-          "help": "Enable Pinterest API?",
+          "help": "Use the Pinterest API to TODO TODO",
           "default_value": false,
           "icon": {
             "type": "ICON_TYPE_URL",
