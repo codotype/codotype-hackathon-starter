@@ -1,4 +1,9 @@
 <%_ /* MONGOOSE VIRTUALS */ _%>
+<%_ if (schema.relations.length > 0) { _%>
+
+// // // //
+
+<%_ } _%>
 <%_ schema.relations.forEach((rel) => { _%>
 <%_ if ([RELATION_TYPE_BELONGS_TO, RELATION_TYPE_HAS_ONE].includes(rel.type)) { _%>
 // Specifying a virtual with a `ref` property is how you enable virtual population
@@ -39,5 +44,7 @@
 
 <%_ /* MONGOOSE TOJSON SETS */ _%>
 <%_ if (schema.relations.map(r => r.type).includes(RELATION_TYPE_BELONGS_TO)) { _%>
+// Serialize virtuals in toJSON
 <%= schema.camel_case %>Schema.set('toJSON', { getters: true, virtuals: true });
+
 <%_ } _%>
