@@ -11,8 +11,21 @@
   "version": "0.1.0",
   "official": true,
   "experience": "Intermediate",
-  "supportedDatatypes": [],
-  "supportedRelations": [],
+  "supportedDatatypes": [
+    "STRING",
+    "TEXT",
+    "INTEGER",
+    "FLOAT",
+    "BOOLEAN",
+    "DATE",
+    "TIME",
+    "DATETIME"
+  ],
+  "supportedRelations": [
+    "BELONGS_TO",
+    "HAS_ONE",
+    "HAS_MANY"
+  ],
   "defaultSchemas": [
     {
       "id": "USER_SCHEMA_ID",

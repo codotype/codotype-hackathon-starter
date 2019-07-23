@@ -1,6 +1,6 @@
 {
   "name": "@codotype/codotype-hackathon-starter",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A Codotype generator built around Sahat's Hackathon Starter",
   "main": "index.js",
   "repository": {
