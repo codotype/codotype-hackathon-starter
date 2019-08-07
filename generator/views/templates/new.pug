@@ -39,6 +39,14 @@ block content
         .form-group
           label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
           input.form-control(type="date" name='<%= attr.identifier %>', id='<%= attr.identifier %>'<%= attr.required ? ", required" : "" %>)
+        <%_ } else if (attr.datatype === DATATYPE_TIME) { _%>
+        .form-group
+          label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+          input.form-control(type="time" name='<%= attr.identifier %>', id='<%= attr.identifier %>'<%= attr.required ? ", required" : "" %>)
+        <%_ } else if (attr.datatype === DATATYPE_DATETIME) { _%>
+        .form-group
+          label(class='col-form-label font-weight-bold', for='<%= attr.identifier %>') <%= attr.label %>
+          input.form-control(type="datetime-local" name='<%= attr.identifier %>', id='<%= attr.identifier %>'<%= attr.required ? ", required" : "" %>)
         <%_ } _%>
         <%_ }) _%>
         <%_ schema.relations.forEach((rel) => { _%>
