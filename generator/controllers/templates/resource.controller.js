@@ -94,6 +94,9 @@ module.exports.edit = async (req, res, next) => {
       <%_ returnedSchemasEdit.push(rel.schema.camel_case_plural) _%>
       <%_ } _%>
       <%_ }) _%>
+      <%_ if (schema.attributes.map(a => a.datatype).includes(DATATYPE_DATETIME)) { _%>
+      moment: require('moment'),
+      <%_ } _%>
       model: model,
       title: 'Edit <%= schema.label %>',
     });
