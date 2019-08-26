@@ -17,9 +17,7 @@
     "INTEGER",
     "FLOAT",
     "BOOLEAN",
-    "DATE",
-    "TIME",
-    "DATETIME"
+    "DATE"
   ],
   "supportedRelations": [
     "BELONGS_TO",

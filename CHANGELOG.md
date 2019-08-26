@@ -1,3 +1,10 @@
+### v0.3.0 (UNPUBLISHED)
+
+#### Changes
+* Removes `Time` and `Datetime` datatypes from `codotype-generator.json` - only supports `Date` type
+
+---
+
 ### v0.2.0
 
 #### Changes
